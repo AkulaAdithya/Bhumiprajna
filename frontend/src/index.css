@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+:root {
+  /* Primary palette — Government navy/blue (NIC/MoRTH portal style) */
+  --color-primary-50:  #eff4fb;
+  --color-primary-100: #dce8f5;
+  --color-primary-200: #b9d1eb;
+  --color-primary-300: #8bb3dc;
+  --color-primary-400: #5a8ec8;
+  --color-primary-500: #2563a8;
+  --color-primary-600: #1a4f8c;
+  --color-primary-700: #153e72;
+  --color-primary-800: #102f58;
+  --color-primary-900: #0c2040;
+
+  /* Sidebar — deep navy, like NIC portals */
+  --sidebar-bg:        #0f2144;
+  --sidebar-hover:     #1a3561;
+  --sidebar-active:    #1e4080;
+  --sidebar-border:    #1a3060;
+  --sidebar-text:      #a8bdd4;
+  --sidebar-text-dim:  #6080a0;
+  --sidebar-width:     260px;
+
+  /* Surfaces */
+  --color-surface:       #f4f6f9;
+  --color-surface-raised: #ffffff;
+  --color-border:        #dde2ea;
+  --color-border-strong: #c5cdd8;
+
+  /* Text */
+  --color-text-primary:   #0f1a2e;
+  --color-text-secondary: #3d5478;
+  --color-text-muted:     #7a8fa8;
+
+  /* Risk colours — restrained, accessible */
+  --risk-low:          #15803d;
+  --risk-low-bg:       #f0fdf4;
+  --risk-low-border:   #bbf7d0;
+  --risk-medium:       #b45309;
+  --risk-medium-bg:    #fffbeb;
+  --risk-medium-border:#fde68a;
+  --risk-high:         #c2410c;
+  --risk-high-bg:      #fff7ed;
+  --risk-high-border:  #fed7aa;
+  --risk-critical:     #b91c1c;
+  --risk-critical-bg:  #fef2f2;
+  --risk-critical-border:#fecaca;
+
+  /* Header */
+  --header-bg:         #1a3561;
+  --header-height:     56px;
+}
+
+/* ── Base ── */
+* { box-sizing: border-box; }
+
+html { font-size: 14px; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background-color: var(--color-border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--color-text-muted); }
+
+/* ── Typography ── */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-primary);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* ── Focus ring ── */
+*:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+/* ── Risk badge utilities ── */
+.risk-low {
+  color: var(--risk-low);
+  background-color: var(--risk-low-bg);
+  border: 1px solid var(--risk-low-border);
+}
+.risk-medium {
+  color: var(--risk-medium);
+  background-color: var(--risk-medium-bg);
+  border: 1px solid var(--risk-medium-border);
+}
+.risk-high {
+  color: var(--risk-high);
+  background-color: var(--risk-high-bg);
+  border: 1px solid var(--risk-high-border);
+}
+.risk-critical {
+  color: var(--risk-critical);
+  background-color: var(--risk-critical-bg);
+  border: 1px solid var(--risk-critical-border);
+}
+
+/* ── Government card style ── */
+.gov-card {
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+/* ── Animations — restrained ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(3px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in { animation: fadeIn 0.25s ease-out; }
+
+/* ── Card hover ── */
+.card-hover { transition: box-shadow 0.15s ease; }
+.card-hover:hover { box-shadow: 0 2px 8px rgba(15,33,68,0.10); }
+
+/* ── Table ── */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  text-align: left;
+  padding: 0.625rem 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  background-color: #f1f5fb;
+  border-bottom: 2px solid var(--color-border);
+}
+.data-table td {
+  padding: 0.625rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+}
+.data-table tr:hover td {
+  background-color: var(--color-primary-50);
+}
+
+/* ── Leaflet map — light style ── */
+.leaflet-container {
+  font-family: inherit !important;
+  border-radius: 4px;
+  background: #e8edf2 !important;
+}
+.leaflet-popup-content-wrapper {
+  background: #fff !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15) !important;
+  border: 1px solid var(--color-border) !important;
+}
+.leaflet-popup-tip { background: #fff !important; }
+.leaflet-control-zoom a {
+  background: #fff !important;
+  color: var(--color-text-secondary) !important;
+  border-color: var(--color-border) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: var(--color-primary-50) !important;
+  color: var(--color-primary-700) !important;
+}
+
+/* ── Print helpers ── */
+@media print {
+  aside, button { display: none !important; }
+  body { background: white; }
+}

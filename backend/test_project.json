@@ -1,0 +1,23 @@
+{
+  "project_name": "NH-48 Widening Pune-Mumbai",
+  "state": "Maharashtra",
+  "district": "Pune",
+  "project_type": "HIGHWAY",
+  "land_area": 250.0,
+  "affected_families": 850,
+  "current_stage": "Compensation Disbursement",
+  "next_stage": "Rehabilitation & Resettlement",
+  "snapshot_date": "2026-09-01",
+  "latitude": 18.52,
+  "longitude": 73.86,
+  "approvals": {"approvals_required": 12, "approvals_completed": 7},
+  "legal": {"legal_cases_total": 15, "legal_cases_resolved": 6, "disputed_land_area": 12.5},
+  "compensation": {"compensation_total_amount": 450.0, "compensation_paid_amount": 180.0, "beneficiaries_eligible": 850, "beneficiaries_compensated": 340},
+  "documentation": {"documents_required": 25, "documents_submitted": 20, "documents_verified": 14},
+  "notifications": {"notifications_required": 8, "notifications_issued": 5},
+  "ownership": {"parcels_total": 120, "parcels_disputed": 18, "ownership_claims_total": 135, "ownership_conflicts_pending": 14, "ownership_conflicts_resolved": 4},
+  "rr": {"rr_families_required": 200, "rr_families_completed": 60},
+  "possession": {"land_required_for_possession": 250.0, "land_acquired_for_possession": 95.0},
+  "stakeholder": {"stakeholder_requests_raised": 22, "stakeholder_responses_received": 14, "average_response_time_days": 18.5},
+  "coordination": {"departments_involved": 5, "coordination_requests_raised": 16, "coordination_requests_resolved": 9}
+}

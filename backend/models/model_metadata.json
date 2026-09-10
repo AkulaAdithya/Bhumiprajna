@@ -1,0 +1,57 @@
+{
+  "model_version": "v1.0.0",
+  "model_type": "LightGBM",
+  "training_timestamp": "2026-09-09T08:32:03.809135",
+  "training_dataset": {
+    "n_projects": 200,
+    "n_snapshots": 1493,
+    "n_training_samples": 1044,
+    "n_test_samples": 262,
+    "target_distribution": {
+      "1": 1043,
+      "0": 263
+    },
+    "seed": 42,
+    "seed_version": "v1.0-synthetic",
+    "is_synthetic": true
+  },
+  "feature_schema_version": "v1.0",
+  "n_features": 60,
+  "requires_scaler": false,
+  "validation_metrics": {
+    "classification": {
+      "precision": 0.9488,
+      "recall": 0.9761,
+      "f1": 0.9623,
+      "pr_auc": 0.9931,
+      "roc_auc": 0.9742,
+      "brier_score": 0.0473
+    },
+    "regression": {
+      "mae": 32.72
+    },
+    "calibration": {
+      "brier_before": 0.0473,
+      "brier_after": 0.0665
+    }
+  },
+  "baseline_comparison": {
+    "logistic_regression": {
+      "precision": 0.9387,
+      "recall": 0.7321,
+      "f1": 0.8226,
+      "pr_auc": 0.9576,
+      "roc_auc": 0.8378,
+      "brier_score": 0.1721
+    },
+    "lightgbm": {
+      "precision": 0.9488,
+      "recall": 0.9761,
+      "f1": 0.9623,
+      "pr_auc": 0.9931,
+      "roc_auc": 0.9742,
+      "brier_score": 0.0473
+    }
+  },
+  "status": "approved"
+}
