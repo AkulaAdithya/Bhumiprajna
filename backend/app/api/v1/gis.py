@@ -1,5 +1,5 @@
 """
-Pravaah - GIS API (M4)
+Bhūmi Prājñā - GIS API (M4)
 Returns projects with coordinates for Leaflet map display.
 Geographic RBAC enforced — officers only see their scope.
 """

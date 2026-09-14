@@ -1,5 +1,5 @@
 """
-Pravaah - Notifications + Audit APIs
+Bhūmi Prājñā - Notifications + Audit APIs
 """
 
 import uuid

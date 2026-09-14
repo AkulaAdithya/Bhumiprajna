@@ -1,5 +1,5 @@
 """
-Pravaah - Security Utilities
+Bhūmi Prājñā - Security Utilities
 JWT token creation/verification and password hashing.
 """
 

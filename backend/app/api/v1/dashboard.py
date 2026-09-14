@@ -1,5 +1,5 @@
 """
-Pravaah - Dashboard Stats API
+Bhūmi Prājñā - Dashboard Stats API
 Role-scoped KPI aggregations for the dashboard.
 """
 

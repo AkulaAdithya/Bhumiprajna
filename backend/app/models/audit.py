@@ -1,5 +1,5 @@
 """
-Pravaah - Audit Log Model
+Bhūmi Prājñā - Audit Log Model
 Append-oriented audit records for traceability.
 """
 

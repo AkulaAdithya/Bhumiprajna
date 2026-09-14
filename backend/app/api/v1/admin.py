@@ -1,5 +1,5 @@
 """
-Pravaah - Admin API Routes
+Bhūmi Prājñā - Admin API Routes
 Admin-only user management. Not exposed to ordinary officers.
 """
 

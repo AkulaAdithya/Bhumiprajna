@@ -1,5 +1,5 @@
 """
-Pravaah - Stage Definitions Model
+Bhūmi Prājñā - Stage Definitions Model
 Configurable acquisition stage sequence — not hardcoded as a universal legal workflow.
 """
 

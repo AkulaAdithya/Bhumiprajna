@@ -1,5 +1,5 @@
 /**
- * Pravaah - Landing Page
+ * Bhūmi Prājñā - Landing Page
  * Light government portal style matching reference design.
  * White/light-blue background, India skyline silhouette, dark navy footer.
  */
@@ -121,7 +121,7 @@ export default function LandingPage() {
             प्र
           </div>
           <div>
-            <div style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>Pravaah</div>
+            <div style={{ fontSize: 16, fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>Bhūmi Prājñā</div>
             <div style={{ fontSize: 11, color: '#64748b', lineHeight: 1 }}>Land Acquisition Intelligence Platform</div>
           </div>
         </div>
@@ -263,12 +263,12 @@ export default function LandingPage() {
               fontSize: 15, fontWeight: 800, color: 'white',
             }}>प्र</div>
             <div>
-              <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>Pravaah</div>
+              <div style={{ color: 'white', fontSize: 14, fontWeight: 700 }}>Bhūmi Prājñā</div>
               <div style={{ fontSize: 11 }}>Land Acquisition Intelligence Platform · Government of India</div>
             </div>
           </div>
           <div style={{ fontSize: 11 }}>
-            &copy; 2025 Pravaah. Government of India. All rights reserved.
+            © 2025 Bhūmi Prājñā. Government of India. All rights reserved.
           </div>
           <div style={{ display: 'flex', gap: 16, fontSize: 12, color: '#cbd5e1' }}>
             {['Privacy', 'Terms', 'Help', 'Contact'].map(l => (

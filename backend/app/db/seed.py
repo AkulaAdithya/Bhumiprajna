@@ -1,5 +1,5 @@
 """
-Pravaah - Database Seed Data
+Bhūmi Prājñā - Database Seed Data
 Creates demo accounts, stage definitions, and geographic reference data.
 """
 

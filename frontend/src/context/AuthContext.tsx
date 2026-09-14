@@ -1,5 +1,5 @@
 /**
- * Pravaah - Auth Context
+ * Bhūmi Prājñā - Auth Context
  * Manages authentication state, login/logout, and user session.
  */
 

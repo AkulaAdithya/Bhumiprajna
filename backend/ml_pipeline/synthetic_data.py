@@ -1,5 +1,5 @@
 """
-Pravaah - Synthetic Data Generator
+Bhūmi Prājñā - Synthetic Data Generator
 Generates complete project histories first, then derives chronological snapshots.
 All data is clearly labelled synthetic and reproducible with a fixed seed.
 

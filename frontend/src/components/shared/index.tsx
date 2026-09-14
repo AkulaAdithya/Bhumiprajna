@@ -1,5 +1,5 @@
 /**
- * Pravaah - Shared UI Components
+ * Bhūmi Prājñā - Shared UI Components
  * Reusable design system components consistent with design.md.
  */
 

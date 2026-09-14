@@ -1,5 +1,5 @@
 /**
- * Pravaah - App Layout
+ * Bhūmi Prājñā - App Layout
  * Main layout shell: navy sidebar + light content area.
  * Sign-out is accessible via the sidebar user section.
  */
@@ -16,7 +16,7 @@ export default function AppLayout() {
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f4f6f9' }}>
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
           <div style={{ width: 36, height: 36, border: '3px solid #1d4ed8', borderTopColor: 'transparent', borderRadius: '50%', animation: 'spin 0.8s linear infinite' }} />
-          <p style={{ fontSize: 13, color: '#64748b' }}>Loading Pravaah…</p>
+          <p style={{ fontSize: 13, color: '#64748b' }}>Loading Bhūmi Prājñā…</p>
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>

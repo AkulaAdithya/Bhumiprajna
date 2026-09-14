@@ -1,5 +1,5 @@
 """
-Pravaah - Authentication & Authorization Dependencies
+Bhūmi Prājñā - Authentication & Authorization Dependencies
 JWT extraction, user resolution, and RBAC enforcement.
 Backend-enforced — frontend hiding alone is not security.
 """

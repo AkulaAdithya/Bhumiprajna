@@ -1,5 +1,5 @@
 /**
- * Pravaah - Login Page
+ * Bhūmi Prājñā - Login Page
  * White card on light blue background with India skyline.
  * Matches approved login-page-reference.png design.
  */
@@ -84,7 +84,7 @@ export default function LoginPage() {
             प्र
           </div>
           <div>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>Pravaah</div>
+            <div style={{ fontSize: 15, fontWeight: 700, color: '#0f172a', lineHeight: 1.2 }}>Bhūmi Prājñā</div>
             <div style={{ fontSize: 11, color: '#64748b' }}>Land Acquisition Intelligence Platform</div>
             <div style={{ fontSize: 10, color: '#94a3b8' }}>Government of India</div>
           </div>
@@ -145,7 +145,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={e => setEmail(e.target.value)}
                   required
-                  placeholder="officer@pravaah.gov.in"
+                  placeholder="officer@bhumiprjna.gov.in"
                   style={{
                     width: '100%', paddingLeft: 38, paddingRight: 12, paddingTop: 10, paddingBottom: 10,
                     border: '1.5px solid #d1d5db', borderRadius: 8,
@@ -236,11 +236,11 @@ export default function LoginPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ width: 28, height: 28, borderRadius: 5, background: 'rgba(255,255,255,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 800, color: 'white' }}>प्र</div>
             <div>
-              <div style={{ color: 'white', fontWeight: 700, fontSize: 12 }}>Pravaah</div>
+              <div style={{ color: 'white', fontWeight: 700, fontSize: 12 }}>Bhūmi Prājñā</div>
               <div>Land Acquisition Intelligence Platform · Government of India</div>
             </div>
           </div>
-          <span>&copy; 2025 Pravaah. Government of India. All rights reserved.</span>
+          <span>&copy; 2025 Bhūmi Prājñā. Government of India. All rights reserved.</span>
           <div style={{ display: 'flex', gap: 14 }}>
             {['Privacy', 'Terms', 'Help', 'Contact'].map(l => <span key={l} style={{ color: '#cbd5e1', cursor: 'pointer' }}>{l}</span>)}
           </div>

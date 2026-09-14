@@ -1,5 +1,5 @@
 /**
- * Pravaah - Project Detail Page (M3)
+ * Bhūmi Prājñā - Project Detail Page (M3)
  * Full project view: risk dashboard, SHAP explanations, intervention recommendations,
  * parameter group breakdown, snapshot timeline, and re-predict action.
  * 
@@ -256,7 +256,7 @@ export default function ProjectDetailPage() {
 
       {/* SYSTEM PURPOSE BANNER — SIH26017 alignment */}
       <div className="bg-blue-900 text-blue-100 rounded-lg px-4 py-2 text-xs flex items-center gap-4 flex-wrap">
-        <span className="font-semibold text-white">Pravaah Early Delay Detection System</span>
+        <span className="font-semibold text-white">Bhūmi Prājñā Early Delay Detection System</span>
         <span className="text-blue-300">PREDICT</span>
         <span className="text-blue-500">→</span>
         <span className="text-blue-300">EXPLAIN</span>

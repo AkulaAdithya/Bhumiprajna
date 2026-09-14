@@ -1,5 +1,5 @@
 /**
- * Pravaah - Model Governance Page (M5)
+ * Bhūmi Prājñā - Model Governance Page (M5)
  * Displays all registered model versions with performance metrics.
  * Admin-controlled approval gate. Stale-data check trigger.
  * Prominently displays governance note: no auto-retrain on operational updates.
@@ -19,9 +19,22 @@ function MetricBadge({ label, value, highlight }: { label: string; value?: numbe
   if (value == null) return null;
   const display = value < 1 ? `${(value * 100).toFixed(1)}%` : value.toFixed(1);
   return (
-    <div className={`rounded-lg px-3 py-2 text-center ${highlight ? 'bg-indigo-500/10 border border-indigo-500/20' : 'bg-slate-900/50'}`}>
-      <div className={`text-lg font-bold font-mono ${highlight ? 'text-indigo-300' : 'text-slate-200'}`}>{display}</div>
-      <div className="text-[10px] text-slate-500 mt-0.5 uppercase tracking-wide">{label}</div>
+    <div style={{
+      borderRadius: 8,
+      padding: '8px 12px',
+      textAlign: 'center',
+      background: 'white',
+      border: highlight ? '1.5px solid #b9d1eb' : '1px solid #dde2ea',
+      boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+    }}>
+      <div style={{
+        fontSize: 17,
+        fontWeight: 700,
+        fontFamily: 'monospace',
+        color: highlight ? '#1a4f8c' : '#0f1a2e',
+        lineHeight: 1.2,
+      }}>{display}</div>
+      <div style={{ fontSize: 9, color: '#7a8fa8', marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</div>
     </div>
   );
 }

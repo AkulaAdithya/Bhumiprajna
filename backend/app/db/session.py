@@ -1,5 +1,5 @@
 """
-Pravaah - Database Connection
+Bhūmi Prājñā - Database Connection
 Async SQLAlchemy engine and session management for PostgreSQL/PostGIS.
 """
 

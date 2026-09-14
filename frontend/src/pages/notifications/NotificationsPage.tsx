@@ -1,5 +1,5 @@
 /**
- * Pravaah - Notifications Page (M4/M5)
+ * Bhūmi Prājñā - Notifications Page (M4/M5)
  * In-app notification centre with mark-as-read and severity filters.
  */
 

@@ -1,5 +1,5 @@
 """
-Pravaah - Geographic Data API
+Bhūmi Prājñā - Geographic Data API
 Provides states and districts for dropdowns and GIS.
 """
 

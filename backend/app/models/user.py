@@ -1,5 +1,5 @@
 """
-Pravaah - User & RBAC Database Models
+Bhūmi Prājñā - User & RBAC Database Models
 Roles: ADMIN, CENTRAL_OFFICER, STATE_OFFICER, DISTRICT_OFFICER
 Geographic scope enforcement is built into the user model.
 """

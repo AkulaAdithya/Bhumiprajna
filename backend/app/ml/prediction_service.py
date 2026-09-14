@@ -1,5 +1,5 @@
 """
-Pravaah - ML Prediction Service
+Bhūmi Prājñā - ML Prediction Service
 Loads trained model artifacts and provides predictions for operational projects.
 Uses only current observable state — no future information.
 """

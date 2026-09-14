@@ -1,5 +1,5 @@
 /**
- * Pravaah - API Client Service
+ * Bhūmi Prājñā - API Client Service
  * Centralized API communication layer using Axios.
  */
 

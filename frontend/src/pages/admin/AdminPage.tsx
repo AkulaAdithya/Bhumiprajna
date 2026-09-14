@@ -1,5 +1,5 @@
 /**
- * Pravaah - Admin User Management Page (M5)
+ * Bhūmi Prājñā - Admin User Management Page (M5)
  * CRUD for users. Only ADMIN role can access this page.
  * Backend authorization is always authoritative.
  */

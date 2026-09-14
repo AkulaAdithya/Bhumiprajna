@@ -1,5 +1,5 @@
 """
-Pravaah - Auto-Completion E2E Tests
+Bhūmi Prājñā - Auto-Completion E2E Tests
 Verifies that a project with all parameters at 100% automatically transitions
 from ONGOING → COMPLETED and disappears from every active view.
 """

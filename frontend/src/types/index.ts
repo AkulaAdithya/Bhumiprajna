@@ -1,5 +1,5 @@
 /**
- * Pravaah - TypeScript Type Definitions
+ * Bhūmi Prājñā - TypeScript Type Definitions
  * Core types matching the data dictionary and backend schemas.
  */
 

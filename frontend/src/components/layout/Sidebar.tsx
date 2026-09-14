@@ -1,5 +1,5 @@
 /**
- * Pravaah - Sidebar Navigation
+ * Bhūmi Prājñā - Sidebar Navigation
  * Government of India portal style: deep navy sidebar, formal labels.
  * Role-aware navigation — backend authorization remains authoritative.
  */
@@ -152,7 +152,7 @@ export default function Sidebar({ unreadCount = 0 }: SidebarProps) {
             प्र
           </div>
           <div>
-            <div style={{ fontSize: '14px', fontWeight: '700', color: 'white', lineHeight: 1.2 }}>Pravaah</div>
+            <div style={{ fontSize: '14px', fontWeight: '700', color: 'white', lineHeight: 1.2 }}>Bhūmi Prājñā</div>
             <div style={{ fontSize: '9px', color: 'var(--sidebar-text)', lineHeight: 1.2, marginTop: '1px' }}>
               Land Acquisition Intelligence Platform
             </div>

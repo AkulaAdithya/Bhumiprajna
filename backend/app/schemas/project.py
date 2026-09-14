@@ -1,5 +1,5 @@
 """
-Pravaah - Project Schemas
+Bhūmi Prājñā - Project Schemas
 Pydantic schemas for project CRUD, snapshot creation, and API responses.
 """
 

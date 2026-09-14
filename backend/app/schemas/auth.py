@@ -1,5 +1,5 @@
 """
-Pravaah - Pydantic Schemas for Auth & Users
+Bhūmi Prājñā - Pydantic Schemas for Auth & Users
 Request/response validation models.
 """
 

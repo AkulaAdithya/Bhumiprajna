@@ -1,5 +1,5 @@
 /**
- * Pravaah - Main Application Entry
+ * Bhūmi Prājñā - Main Application Entry
  * Routes, auth provider, layout wiring.
  */
 

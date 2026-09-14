@@ -1,5 +1,5 @@
 """
-Pravaah - Prediction Pipeline Tests (M6)
+Bhūmi Prājñā - Prediction Pipeline Tests (M6)
 Tests: prediction output validity, no data leakage, alerts, analytics, GIS.
 Uses live server at localhost:8000.
 """

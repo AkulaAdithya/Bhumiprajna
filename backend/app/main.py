@@ -1,5 +1,5 @@
 """
-Pravaah - FastAPI Main Application
+Bhūmi Prājñā - FastAPI Main Application
 Entry point for the backend API server.
 """
 

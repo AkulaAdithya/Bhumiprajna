@@ -1,5 +1,5 @@
 """
-Pravaah - Auth API Routes
+Bhūmi Prājñā - Auth API Routes
 Login endpoint. No public signup. No role selector.
 """
 

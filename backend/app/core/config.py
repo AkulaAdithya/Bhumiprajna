@@ -1,5 +1,5 @@
 """
-Pravaah - Application Configuration
+Bhūmi Prājñā - Application Configuration
 Loads settings from environment variables / .env file.
 Secrets are kept outside source code.
 """
@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 480
 
     # Application
-    APP_NAME: str = "Pravaah"
+    APP_NAME: str = "Bhūmi Prājñā"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = True
 

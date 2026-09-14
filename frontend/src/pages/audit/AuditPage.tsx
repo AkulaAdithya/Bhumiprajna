@@ -1,5 +1,5 @@
 /**
- * Pravaah - Audit Trail Page (M5 early / M4 wiring)
+ * Bhūmi Prājñā - Audit Trail Page (M5 early / M4 wiring)
  * Append-only audit log viewer. Only ADMIN and CENTRAL_OFFICER can access.
  * Shows actor, action, timestamp, project, before/after values.
  */

@@ -1,5 +1,5 @@
 """
-Pravaah - Model Training Pipeline
+Bhūmi Prājñā - Model Training Pipeline
 Establishes baselines first, then evaluates LightGBM.
 Does NOT assume LightGBM is automatically best.
 Uses SHAP for explanations and calibrates probabilities.
@@ -55,7 +55,7 @@ MODEL_DIR.mkdir(exist_ok=True)
 def train_pipeline():
     """Run the complete training pipeline."""
     print("=" * 60)
-    print("PRAVAAH ML TRAINING PIPELINE")
+    print("BHŪMI PRĀJÑĀ ML TRAINING PIPELINE")
     print("=" * 60)
 
     # 1. Generate synthetic data
