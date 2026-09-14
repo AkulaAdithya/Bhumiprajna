@@ -32,3 +32,6 @@ build/
 *.sqlite
 *.sqlite3
 *.dump
+
+# Documentation
+docs/
