@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Project & State Snapshot Database Models
+Bhumi Prajna - Project & State Snapshot Database Models
 All 10 parameter groups from data_dictionary.md.
 Separate operational and historical tables.
 """

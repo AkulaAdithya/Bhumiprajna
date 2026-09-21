@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Analytics API (M4)
+Bhumi Prajna - Analytics API (M4)
 Role-scoped analytics: risk distribution, stage breakdown, trend over time,
 top risk-driving parameters, state/district comparison.
 """

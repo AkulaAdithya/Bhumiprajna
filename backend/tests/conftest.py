@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Test Fixtures (conftest.py)
+Bhumi Prajna - Test Fixtures (conftest.py)
 Uses real HTTP against the live dev server (localhost:8000).
 This avoids asyncpg event-loop conflicts when using ASGITransport.
 """

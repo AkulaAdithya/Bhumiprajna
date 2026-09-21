@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - Analytics Page (M4)
+ * Bhumi Prajna - Analytics Page (M4)
  * Role-scoped risk analytics: distribution charts, stage breakdown,
  * weekly trend, state/district comparison, data freshness, risk drivers.
  * Uses Plotly for rich interactive charts.

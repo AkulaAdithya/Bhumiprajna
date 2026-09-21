@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - Model Governance Page (M5)
+ * Bhumi Prajna - Model Governance Page (M5)
  * Displays all registered model versions with performance metrics.
  * Admin-controlled approval gate. Stale-data check trigger.
  * Prominently displays governance note: no auto-retrain on operational updates.

@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Geographic Reference Models
+Bhumi Prajna - Geographic Reference Models
 Indian states and districts with PostGIS geometry support.
 """
 

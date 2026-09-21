@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - Dashboard Page (M3 — Live Data)
+ * Bhumi Prajna - Dashboard Page (M3 — Live Data)
  * Light government portal theme matching dashboard-reference.png.
  * White KPI cards with colored icon squares, dark navy headings.
  */

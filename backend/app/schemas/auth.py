@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Pydantic Schemas for Auth & Users
+Bhumi Prajna - Pydantic Schemas for Auth & Users
 Request/response validation models.
 """
 

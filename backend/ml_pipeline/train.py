@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Model Training Pipeline
+Bhumi Prajna - Model Training Pipeline
 Establishes baselines first, then evaluates LightGBM.
 Does NOT assume LightGBM is automatically best.
 Uses SHAP for explanations and calibrates probabilities.

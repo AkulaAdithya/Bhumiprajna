@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Dashboard Stats API
+Bhumi Prajna - Dashboard Stats API
 Role-scoped KPI aggregations for the dashboard.
 """
 

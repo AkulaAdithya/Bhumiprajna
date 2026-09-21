@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - GIS Map Page (M4)
+ * Bhumi Prajna - GIS Map Page (M4)
  * Role-scoped Leaflet map with risk-coloured project markers,
  * heatmap overlay, project popups linking to detail view.
  */

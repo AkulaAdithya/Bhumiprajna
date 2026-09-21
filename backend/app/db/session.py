@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Database Connection
+Bhumi Prajna - Database Connection
 Async SQLAlchemy engine and session management for PostgreSQL/PostGIS.
 """
 

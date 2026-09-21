@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - Auth Context
+ * Bhumi Prajna - Auth Context
  * Manages authentication state, login/logout, and user session.
  */
 

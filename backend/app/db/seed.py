@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Database Seed Data
+Bhumi Prajna - Database Seed Data
 Creates demo accounts, stage definitions, and geographic reference data.
 """
 

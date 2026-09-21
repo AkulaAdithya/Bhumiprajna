@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - Main Application Entry
+ * Bhumi Prajna - Main Application Entry
  * Routes, auth provider, layout wiring.
  */
 

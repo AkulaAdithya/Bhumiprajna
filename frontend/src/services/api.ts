@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - API Client Service
+ * Bhumi Prajna - API Client Service
  * Centralized API communication layer using Axios.
  */
 

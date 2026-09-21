@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Geographic Data API
+Bhumi Prajna - Geographic Data API
 Provides states and districts for dropdowns and GIS.
 """
 

@@ -1,4 +1,4 @@
-# Bhūmi Prājñā (भूमि प्राज्ञा)
+# Bhumi Prajna (भूमि प्राज्ञा)
 ### Predictive Land Acquisition Intelligence & Early-Intervention Decision Support Platform
 
 [![SIH 2024](https://img.shields.io/badge/SIH-SIH26017-orange.svg)](https://www.sih.gov.in/)
@@ -14,11 +14,11 @@
 
 ## 1. Project Overview
 
-**Bhūmi Prājñā** (*Predictive Land Acquisition Intelligence & Early-Intervention Decision Support Platform*) is an enterprise-grade decision-support system built for infrastructure authorities, state revenue departments, and central ministries across India.
+**Bhumi Prajna** (*Predictive Land Acquisition Intelligence & Early-Intervention Decision Support Platform*) is an enterprise-grade decision-support system built for infrastructure authorities, state revenue departments, and central ministries across India.
 
 Large-scale national infrastructure projects (highways, dedicated freight corridors, high-speed rail, industrial corridors, renewable parks) frequently face substantial delays and cost overruns during the land acquisition phase under the **Right to Fair Compensation and Transparency in Land Acquisition, Rehabilitation and Resettlement Act (RFCTLARR), 2013**. 
 
-Bhūmi Prājñā bridges the gap between field-level operational data and strategic risk management by implementing a continuous, intelligent loop:
+Bhumi Prajna bridges the gap between field-level operational data and strategic risk management by implementing a continuous, intelligent loop:
 
 $$\textbf{Predict} \longrightarrow \textbf{Explain} \longrightarrow \textbf{Prioritize} \longrightarrow \textbf{Intervene} \longrightarrow \textbf{Learn}$$
 
@@ -28,7 +28,7 @@ $$\textbf{Predict} \longrightarrow \textbf{Explain} \longrightarrow \textbf{Prio
 - **Explainable AI (XAI)**: Demystifies predictions using **SHAP (SHapley Additive exPlanations)**, highlighting the exact top 6 factors driving delay risk up or down for every single project.
 - **Prescriptive Interventions**: Automatically recommends tailored administrative, legal, and operational countermeasures mapped to detected risk drivers.
 - **Geo-Spatial Tracking**: Leverages PostGIS and interactive GIS mapping to provide visual spatial intelligence and risk clustering across districts and states.
-- **Decision-Support Guardrails**: Bhūmi Prājñā informs and empowers officers; it **never** automates legal determinations, compensation amounts, or eviction orders.
+- **Decision-Support Guardrails**: Bhumi Prajna informs and empowers officers; it **never** automates legal determinations, compensation amounts, or eviction orders.
 
 ---
 
@@ -38,7 +38,7 @@ $$\textbf{Predict} \longrightarrow \textbf{Explain} \longrightarrow \textbf{Prio
 - **Title**: *Predictive Analytics System for Early Detection of Land Acquisition Delays*
 - **Theme**: Infrastructure & Smart Governance
 - **Background**: Traditional project monitoring relies on lagging indicators (noting delays after milestones have already elapsed). Land acquisition involves complex inter-dependencies between social impact assessments, Section 11/19 notifications, Section 15 objection hearings, title dispute litigations, award inquiries, exchequer fund releases, and physical possession. A bottleneck in any single stream stalls subsequent phases.
-- **The Bhūmi Prājñā Solution**: Bhūmi Prājñā converts multi-stream operational data into a 60-feature project state vector, enabling early detection of bottlenecks weeks before scheduled deadlines, allowing administrators to intervene proactively.
+- **The Bhumi Prajna Solution**: Bhumi Prajna converts multi-stream operational data into a 60-feature project state vector, enabling early detection of bottlenecks weeks before scheduled deadlines, allowing administrators to intervene proactively.
 
 ---
 
@@ -216,7 +216,7 @@ Feature Vector Pipeline (60 Engineered Features)
 
 - **Classifier (`stage_delay_classifier_v1.joblib`)**: LightGBM binary classifier trained on stage-specific historical milestone outcomes to predict `next_stage_delayed_30d`.
 - **Regressor (`delay_days_regressor_v1.joblib`)**: LightGBM regressor predicting continuous `next_stage_delay_days`.
-- **Interpretability via SHAP**: For every inference, `shap.TreeExplainer` generates individual Shapley values for the 60 features. Bhūmi Prājñā sorts and extracts the **Top 6 high-impact factors** with directional impact (increasing risk or decreasing risk) and human-readable explanations.
+- **Interpretability via SHAP**: For every inference, `shap.TreeExplainer` generates individual Shapley values for the 60 features. Bhumi Prajna sorts and extracts the **Top 6 high-impact factors** with directional impact (increasing risk or decreasing risk) and human-readable explanations.
 - **Governance & Versioning**: Model weights, feature names, and performance metrics are tracked in `backend/models/metadata.json`. Retraining requires administrative sign-off; models do not perform unmonitored online updates.
 
 ---
@@ -230,8 +230,8 @@ Feature Vector Pipeline (60 Engineered Features)
 > 
 > - The dataset was programmatically generated using realistic statistical distributions, realistic administrative workflows, and statutory timelines defined in the **RFCTLARR Act, 2013**.
 > - **It does NOT represent actual government records**, proprietary state revenue files, classified infrastructure blueprints, or personally identifiable citizen information (PII).
-> - The synthetic dataset was crafted strictly to train, evaluate, and demonstrate the technical feasibility and accuracy of the Bhūmi Prājñā predictive engine during the Smart India Hackathon evaluation.
-> - In a live production deployment, Bhūmi Prājñā connects directly to state digital land record portals (e.g., *Bhulekh*, *Bhoomi*, *AnyRoR*, *e-Dharti*) via secure internal state government APIs.
+> - The synthetic dataset was crafted strictly to train, evaluate, and demonstrate the technical feasibility and accuracy of the Bhumi Prajna predictive engine during the Smart India Hackathon evaluation.
+> - In a live production deployment, Bhumi Prajna connects directly to state digital land record portals (e.g., *Bhulekh*, *Bhoomi*, *AnyRoR*, *e-Dharti*) via secure internal state government APIs.
 
 ---
 
@@ -334,7 +334,7 @@ The database seeds automatically with pre-configured accounts representing every
 
 ### Step 5: Running the Test Suite
 
-Bhūmi Prājñā includes comprehensive automated tests verifying JWT authentication, server-side RBAC scoping, prediction accuracy, SHAP factor generation, and automatic project completion:
+Bhumi Prajna includes comprehensive automated tests verifying JWT authentication, server-side RBAC scoping, prediction accuracy, SHAP factor generation, and automatic project completion:
 
 ```powershell
 cd backend
@@ -426,7 +426,7 @@ LandSight/
 1. **Probability Calibration in Small Samples**: While probability calibration (isotonic regression / Platt scaling) is architected into the pipeline, raw LightGBM tree probabilities are used by default to prevent degeneracies when operating on small stage-specific training batches.
 2. **Synthetic Data vs. Real-World Integration**: The current prototype demonstrates the full end-to-end ML lifecycle on synthetic data modeled after the RFCTLARR Act (2013). Live production deployment will require connecting to state land registries and district collectorate databases to ingest live historical awards.
 3. **In-App Alerts vs. External SMS/Email Gateways**: Per the hackathon prototype scope, notifications are maintained and delivered through an in-app alert center rather than external telecommunication channels (NIC SMS Gateway / CDAC Kavach).
-4. **Local Hardware Execution**: Per PRD design guidelines, Bhūmi Prājñā runs on local Python/Node/PostgreSQL infrastructure and does not depend on cloud services or external microservice meshes.
+4. **Local Hardware Execution**: Per PRD design guidelines, Bhumi Prajna runs on local Python/Node/PostgreSQL infrastructure and does not depend on cloud services or external microservice meshes.
 5. **Frontend Asset Optimization**: The production bundle includes comprehensive GIS and charting libraries (Leaflet, Plotly/Chart engines). Advanced route-level code splitting and dynamic bundle chunks are designated for subsequent release iterations.
 
 ---

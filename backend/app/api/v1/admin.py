@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Admin API Routes
+Bhumi Prajna - Admin API Routes
 Admin-only user management. Not exposed to ordinary officers.
 """
 

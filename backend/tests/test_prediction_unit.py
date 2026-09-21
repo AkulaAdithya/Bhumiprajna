@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Prediction Service Unit Tests
+Bhumi Prajna - Prediction Service Unit Tests
 Tests that predictions differ for substantially different project profiles.
 Does NOT require a live server.
 """

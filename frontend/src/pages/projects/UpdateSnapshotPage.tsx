@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - Update Project Data (Snapshot) Page
+ * Bhumi Prajna - Update Project Data (Snapshot) Page
  * Fixes M3 routing bug: /projects/:id/snapshot was unregistered → redirected to Home.
  * This page loads the current project state, lets the officer enter updated data,
  * submits as a NEW snapshot (preserving history), re-runs ML prediction, then
@@ -67,7 +67,7 @@ async function parseExcelFile(file: File): Promise<Record<string, any>> {
       }
     }
     return extracted;
-  } catch (e) {
+  } catch {
     throw new Error('Failed to parse Excel file. Please check the file format.');
   }
 }

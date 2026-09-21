@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - Add Project Page (M3)
+ * Bhumi Prajna - Add Project Page (M3)
  * Multi-step guided form: 4 steps covering all 10 parameter groups.
  * Supports two modes:
  *   1. Upload Mode: Upload Excel (.xlsx) or PDF → extract → review/correct → submit

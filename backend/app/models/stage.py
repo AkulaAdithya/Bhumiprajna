@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Stage Definitions Model
+Bhumi Prajna - Stage Definitions Model
 Configurable acquisition stage sequence — not hardcoded as a universal legal workflow.
 """
 

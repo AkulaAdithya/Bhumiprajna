@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Auth API Routes
+Bhumi Prajna - Auth API Routes
 Login endpoint. No public signup. No role selector.
 """
 

@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Authentication & Authorization Dependencies
+Bhumi Prajna - Authentication & Authorization Dependencies
 JWT extraction, user resolution, and RBAC enforcement.
 Backend-enforced — frontend hiding alone is not security.
 """

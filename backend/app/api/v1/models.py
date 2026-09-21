@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Model Governance API (M5)
+Bhumi Prajna - Model Governance API (M5)
 View model versions, metrics, and deployment history.
 Trigger stale-data check.
 Admin-controlled approval workflow for future model updates.

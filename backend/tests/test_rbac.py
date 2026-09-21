@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - RBAC Tests (M6)
+Bhumi Prajna - RBAC Tests (M6)
 All routes use the real live server at localhost:8000 via BASE_URL in conftest.
 """
 

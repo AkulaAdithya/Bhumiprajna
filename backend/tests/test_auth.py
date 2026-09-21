@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Auth Tests (M6)
+Bhumi Prajna - Auth Tests (M6)
 Tests: login, bad credentials, JWT tamper, unauthenticated access, /me endpoint.
 Runs against the live dev server at localhost:8000.
 """
@@ -14,7 +14,7 @@ async def test_health(client: httpx.AsyncClient):
     assert resp.status_code == 200
     data = resp.json()
     assert data["status"] == "healthy"
-    assert data["app"] == "Bhūmi Prājñā"
+    assert data["app"] == "Bhumi Prajna"
 
 
 @pytest.mark.asyncio

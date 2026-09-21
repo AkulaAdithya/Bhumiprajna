@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Feature Engineering Pipeline
+Bhumi Prajna - Feature Engineering Pipeline
 Constructs features from snapshot data for ML training.
 
 Strict leakage rules from data_dictionary.md:

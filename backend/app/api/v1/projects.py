@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Projects API
+Bhumi Prajna - Projects API
 Full CRUD + snapshot creation + on-demand prediction.
 All endpoints enforce geographic RBAC via dependencies.
 """
@@ -32,7 +32,7 @@ router = APIRouter(tags=["Projects"])
 def _is_snapshot_complete(snap_or_params: "dict | ProjectStateSnapshot") -> bool:
     """
     Canonical completion check: returns True when every acquisition milestone
-    tracked by Bhūmi Prājñā has been fully satisfied.
+    tracked by Bhumi Prajna has been fully satisfied.
 
     Works with either a derived-params dict (during add_snapshot) or a
     ProjectStateSnapshot ORM object (during retroactive startup scan).

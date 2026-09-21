@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Alert Service (M5)
+Bhumi Prajna - Alert Service (M5)
 Generates in-app Notification records when:
   1. Risk escalates (LOW→MEDIUM, MEDIUM→HIGH, HIGH/MEDIUM→CRITICAL)
   2. Risk improves (CRITICAL→HIGH, HIGH→MEDIUM, MEDIUM→LOW)

@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - FastAPI Main Application
+Bhumi Prajna - FastAPI Main Application
 Entry point for the backend API server.
 """
 

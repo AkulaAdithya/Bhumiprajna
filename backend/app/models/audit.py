@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Audit Log Model
+Bhumi Prajna - Audit Log Model
 Append-oriented audit records for traceability.
 """
 

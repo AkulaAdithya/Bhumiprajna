@@ -1,5 +1,5 @@
 """
-Bhūmi Prājñā - Security Utilities
+Bhumi Prajna - Security Utilities
 JWT token creation/verification and password hashing.
 """
 

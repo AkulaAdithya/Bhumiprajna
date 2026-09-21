@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - Projects List Page (M3)
+ * Bhumi Prajna - Projects List Page (M3)
  * Light government portal theme. White cards, dark navy headings, blue accents.
  * Filterable, paginated table of all projects with risk badges.
  */

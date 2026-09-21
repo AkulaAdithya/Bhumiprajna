@@ -1,5 +1,5 @@
 /**
- * Bhūmi Prājñā - TypeScript Type Definitions
+ * Bhumi Prajna - TypeScript Type Definitions
  * Core types matching the data dictionary and backend schemas.
  */
 
