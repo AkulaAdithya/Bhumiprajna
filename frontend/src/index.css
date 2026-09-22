@@ -1,56 +1,84 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700;9..144,800&family=Inter:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 :root {
-  /* Primary palette — Government navy/blue (NIC/MoRTH portal style) */
-  --color-primary-50:  #eff4fb;
-  --color-primary-100: #dce8f5;
-  --color-primary-200: #b9d1eb;
-  --color-primary-300: #8bb3dc;
-  --color-primary-400: #5a8ec8;
-  --color-primary-500: #2563a8;
-  --color-primary-600: #1a4f8c;
-  --color-primary-700: #153e72;
-  --color-primary-800: #102f58;
-  --color-primary-900: #0c2040;
+  /* Primary palette — warm terracotta/clay, evokes "Bhumi" (land/earth) */
+  --color-primary-50:  #fbf3ee;
+  --color-primary-100: #f5e1d3;
+  --color-primary-200: #eac3a8;
+  --color-primary-300: #dea179;
+  --color-primary-400: #cd7f52;
+  --color-primary-500: #b8623a;
+  --color-primary-600: #97472a;
+  --color-primary-700: #793a22;
+  --color-primary-800: #5c2c1a;
+  --color-primary-900: #3d1d11;
 
-  /* Sidebar — deep navy, like NIC portals */
-  --sidebar-bg:        #0f2144;
-  --sidebar-hover:     #1a3561;
-  --sidebar-active:    #1e4080;
-  --sidebar-border:    #1a3060;
-  --sidebar-text:      #a8bdd4;
-  --sidebar-text-dim:  #6080a0;
+  /* Sidebar — deep espresso brown with a warm terracotta accent */
+  --sidebar-bg:        #1b140f;
+  --sidebar-hover:     #2b211a;
+  --sidebar-active:    #4a2e1e;
+  --sidebar-border:    #2b211a;
+  --sidebar-text:      #c9b29c;
+  --sidebar-text-dim:  #8a705c;
   --sidebar-width:     260px;
 
-  /* Surfaces */
-  --color-surface:       #f4f6f9;
+  /* Surfaces — warm ivory paper, not cold gray */
+  --color-surface:       #faf6f1;
   --color-surface-raised: #ffffff;
-  --color-border:        #dde2ea;
-  --color-border-strong: #c5cdd8;
+  --color-border:        #e9dfd2;
+  --color-border-strong: #d6c7b3;
 
-  /* Text */
-  --color-text-primary:   #0f1a2e;
-  --color-text-secondary: #3d5478;
-  --color-text-muted:     #7a8fa8;
+  /* Text — warm near-black browns */
+  --color-text-primary:   #241b14;
+  --color-text-secondary: #5a4c3d;
+  --color-text-muted:     #93816d;
 
-  /* Risk colours — restrained, accessible */
-  --risk-low:          #15803d;
-  --risk-low-bg:       #f0fdf4;
-  --risk-low-border:   #bbf7d0;
-  --risk-medium:       #b45309;
-  --risk-medium-bg:    #fffbeb;
-  --risk-medium-border:#fde68a;
-  --risk-high:         #c2410c;
-  --risk-high-bg:      #fff7ed;
-  --risk-high-border:  #fed7aa;
-  --risk-critical:     #b91c1c;
-  --risk-critical-bg:  #fef2f2;
-  --risk-critical-border:#fecaca;
+  /* Risk colours — restrained, accessible, warmed to match the palette */
+  --risk-low:          #157f45;
+  --risk-low-bg:       #f0faf3;
+  --risk-low-border:   #c7ead3;
+  --risk-medium:       #b5730a;
+  --risk-medium-bg:    #fff8ec;
+  --risk-medium-border:#f5dfb0;
+  --risk-high:         #c2530c;
+  --risk-high-bg:      #fff3ea;
+  --risk-high-border:  #f6cda8;
+  --risk-critical:     #b8271f;
+  --risk-critical-bg:  #fdf0ef;
+  --risk-critical-border:#f5c9c4;
 
   /* Header */
-  --header-bg:         #1a3561;
-  --header-height:     56px;
+  --header-bg:         #ffffff;
+  --header-height:     60px;
+
+  /* Accent — deep forest green for interactive elements (buttons/links), distinct from the terracotta brand chrome */
+  --color-accent-50:   #eef7f0;
+  --color-accent-100:  #d9eede;
+  --color-accent-200:  #b3ddc0;
+  --color-accent-500:  #2f7d50;
+  --color-accent-600:  #24663f;
+  --color-accent-700:  #1c5233;
+
+  /* Fonts */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body:    'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Radius scale */
+  --radius-sm:  6px;
+  --radius-md:  8px;
+  --radius-lg:  10px;
+  --radius-xl:  14px;
+  --radius-2xl: 18px;
+
+  /* Shadow scale — soft, warm-tinted elevation */
+  --shadow-xs: 0 1px 2px rgba(36,27,20,0.06);
+  --shadow-sm: 0 1px 3px rgba(36,27,20,0.08), 0 1px 2px rgba(36,27,20,0.05);
+  --shadow-md: 0 4px 12px rgba(36,27,20,0.10), 0 1px 3px rgba(36,27,20,0.06);
+  --shadow-lg: 0 12px 32px rgba(36,27,20,0.16), 0 2px 8px rgba(36,27,20,0.07);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ── Base ── */
@@ -59,7 +87,7 @@
 html { font-size: 14px; }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-family: var(--font-body);
   background-color: var(--color-surface);
   color: var(--color-text-primary);
   margin: 0;
@@ -74,11 +102,16 @@ body {
 ::-webkit-scrollbar-thumb { background-color: var(--color-border-strong); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background-color: var(--color-text-muted); }
 
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
 /* ── Typography ── */
 h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
-  font-weight: 700;
-  line-height: 1.25;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
 /* ── Focus ring ── */
@@ -113,8 +146,90 @@ h1, h2, h3, h4, h5, h6 {
 .gov-card {
   background-color: var(--color-surface-raised);
   border: 1px solid var(--color-border);
-  border-radius: 6px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color 0.15s var(--ease-out), border-color 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out), transform 0.1s var(--ease-out);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.btn:active { transform: translateY(0.5px); }
+.btn:disabled { cursor: not-allowed; opacity: 0.6; transform: none; }
+
+.btn-sm { padding: 0.375rem 0.75rem; font-size: 0.75rem; }
+.btn-md { padding: 0.5625rem 1rem; font-size: 0.8125rem; }
+.btn-lg { padding: 0.6875rem 1.25rem; font-size: 0.875rem; }
+
+.btn-primary {
+  background: linear-gradient(155deg, var(--color-accent-500), var(--color-accent-600));
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(36,102,63,0.28);
+}
+.btn-primary:hover:not(:disabled) { background: linear-gradient(155deg, var(--color-accent-500), var(--color-accent-700)); box-shadow: 0 4px 12px rgba(36,102,63,0.34); }
+
+.btn-secondary {
+  background: var(--color-surface-raised);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-strong);
+}
+.btn-secondary:hover:not(:disabled) { background: var(--color-surface); border-color: #94a3b8; color: var(--color-text-primary); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--color-accent-600);
+  border-color: transparent;
+}
+.btn-ghost:hover:not(:disabled) { background: var(--color-accent-50); }
+
+.btn-danger {
+  background: #fef2f2;
+  color: var(--risk-critical);
+  border-color: var(--risk-critical-border);
+}
+.btn-danger:hover:not(:disabled) { background: #fee2e2; }
+
+.btn-danger-solid {
+  background: var(--risk-critical);
+  color: #fff;
+}
+.btn-danger-solid:hover:not(:disabled) { background: #8f221b; }
+
+/* ── Inputs ── */
+.field-input {
+  width: 100%;
+  padding: 0.5625rem 0.75rem;
+  border: 1.5px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+  font-size: 0.8125rem;
+  color: var(--color-text-primary);
+  background: var(--color-surface-raised);
+  outline: none;
+  transition: border-color 0.15s var(--ease-out), box-shadow 0.15s var(--ease-out);
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.field-input:focus {
+  border-color: var(--color-accent-500);
+  box-shadow: 0 0 0 3px var(--color-accent-100);
+}
+.field-input::placeholder { color: var(--color-text-muted); }
+.field-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.375rem;
 }
 
 /* ── Animations — restrained ── */
@@ -126,8 +241,8 @@ h1, h2, h3, h4, h5, h6 {
 .animate-fade-in { animation: fadeIn 0.25s ease-out; }
 
 /* ── Card hover ── */
-.card-hover { transition: box-shadow 0.15s ease; }
-.card-hover:hover { box-shadow: 0 2px 8px rgba(15,33,68,0.10); }
+.card-hover { transition: box-shadow 0.2s var(--ease-out), transform 0.2s var(--ease-out), border-color 0.2s var(--ease-out); }
+.card-hover:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--color-border-strong); }
 
 /* ── Table ── */
 .data-table { width: 100%; border-collapse: collapse; }
@@ -139,7 +254,7 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-text-secondary);
-  background-color: #f1f5fb;
+  background-color: var(--color-surface);
   border-bottom: 2px solid var(--color-border);
 }
 .data-table td {
@@ -156,7 +271,7 @@ h1, h2, h3, h4, h5, h6 {
 .leaflet-container {
   font-family: inherit !important;
   border-radius: 4px;
-  background: #e8edf2 !important;
+  background: #efe8dd !important;
 }
 .leaflet-popup-content-wrapper {
   background: #fff !important;

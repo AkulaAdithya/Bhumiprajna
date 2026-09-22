@@ -11,6 +11,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
+import { PageHeader, Button } from '../../components/shared';
 
 const STEPS = ['Project Info', 'Legal & Approvals', 'Compensation & Docs', 'R&R & Possession'];
 const PROJECT_TYPES = ['HIGHWAY','RAILWAY','IRRIGATION','INDUSTRIAL','URBAN_DEVELOPMENT','POWER','MINING','DEFENSE','OTHER'];
@@ -115,18 +116,22 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
       {STEPS.map((label, i) => (
         <React.Fragment key={i}>
           <div className="flex items-center gap-2">
-            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-              i < current ? 'bg-blue-700 text-white' :
-              i === current ? 'bg-blue-800 text-white ring-2 ring-blue-300' :
-              'bg-gray-200 text-gray-500'
-            }`}>
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+              style={
+                i < current ? { background: 'var(--color-accent-600)', color: '#fff' } :
+                i === current ? { background: 'var(--color-accent-700)', color: '#fff', boxShadow: '0 0 0 2px var(--color-accent-200)' } :
+                { background: 'var(--color-border)', color: 'var(--color-text-muted)' }
+              }
+            >
               {i < current ? '✓' : i + 1}
             </div>
-            <span className={`text-xs font-medium hidden sm:block ${
-              i === current ? 'text-blue-900' : i < current ? 'text-gray-500' : 'text-gray-400'
-            }`}>{label}</span>
+            <span
+              className="text-xs font-medium hidden sm:block"
+              style={{ color: i === current ? 'var(--color-text-primary)' : i < current ? 'var(--color-text-secondary)' : 'var(--color-text-muted)' }}
+            >{label}</span>
           </div>
-          {i < total - 1 && <div className={`flex-1 h-0.5 ${i < current ? 'bg-blue-700' : 'bg-gray-200'}`} />}
+          {i < total - 1 && <div className="flex-1 h-0.5" style={{ background: i < current ? 'var(--color-accent-600)' : 'var(--color-border)' }} />}
         </React.Fragment>
       ))}
     </div>
@@ -136,16 +141,16 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
 function FormField({ label, required, hint, children }: { label: string; required?: boolean; hint?: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">
-        {label}{required && <span className="text-red-500 ml-1">*</span>}
+      <label className="field-label">
+        {label}{required && <span style={{ color: 'var(--risk-critical)' }} className="ml-1">*</span>}
       </label>
       {children}
-      {hint && <p className="text-xs text-gray-400 mt-1">{hint}</p>}
+      {hint && <p className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>{hint}</p>}
     </div>
   );
 }
 
-const inputClass = "w-full px-3 py-2 bg-white border border-gray-300 text-gray-900 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 transition-all";
+const inputClass = "field-input";
 
 export default function AddProjectPage() {
   const navigate = useNavigate();
@@ -344,45 +349,46 @@ export default function AddProjectPage() {
   if (mode === 'choose') {
     return (
       <div className="animate-fade-in max-w-2xl mx-auto">
-        <button onClick={() => navigate('/projects')} className="text-gray-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-5 transition-colors">
+        <button onClick={() => navigate('/projects')} className="text-xs font-semibold flex items-center gap-1 mb-5" style={{ color: 'var(--color-accent-600)' }}>
           ← Back to Projects
         </button>
-        <h1 className="text-xl font-bold text-gray-900 mb-1">Add New Project</h1>
-        <p className="text-sm text-gray-500 mb-6">Enter current state data — the system will immediately generate a delay-risk prediction using the trained ML model.</p>
+        <PageHeader title="Add New Project" subtitle="Enter current state data — the system will immediately generate a delay-risk prediction using the trained ML model." />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
           {/* Upload option */}
           <button
             onClick={() => setMode('upload')}
-            className="text-left p-5 bg-white border-2 border-blue-200 rounded-xl hover:border-blue-500 hover:shadow-md transition-all group"
+            className="text-left p-5 bg-white rounded-[10px] card-hover group"
+            style={{ border: '1.5px solid var(--color-accent-200)', boxShadow: 'var(--shadow-xs)' }}
           >
-            <div className="w-10 h-10 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center mb-3 group-hover:bg-blue-700 group-hover:text-white transition-colors">
+            <div className="w-10 h-10 rounded-[10px] flex items-center justify-center mb-3" style={{ background: 'var(--color-accent-100)', color: 'var(--color-accent-600)' }}>
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
               </svg>
             </div>
-            <h2 className="text-sm font-bold text-gray-900 mb-1">Upload Project Report</h2>
-            <p className="text-xs text-gray-500">Upload Excel (.xlsx) — auto-extract fields, review, correct, then save. Recommended.</p>
-            <p className="text-xs text-blue-600 mt-2 font-medium">Supports Excel (.xlsx/.xls)</p>
+            <h2 className="text-sm font-bold mb-1" style={{ color: 'var(--color-text-primary)' }}>Upload Project Report</h2>
+            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Upload Excel (.xlsx) — auto-extract fields, review, correct, then save. Recommended.</p>
+            <p className="text-xs mt-2 font-medium" style={{ color: 'var(--color-accent-600)' }}>Supports Excel (.xlsx/.xls)</p>
           </button>
 
           {/* Manual option */}
           <button
             onClick={() => setMode('manual')}
-            className="text-left p-5 bg-white border-2 border-gray-200 rounded-xl hover:border-blue-400 hover:shadow-md transition-all group"
+            className="text-left p-5 bg-white rounded-[10px] card-hover group"
+            style={{ border: '1.5px solid var(--color-border)', boxShadow: 'var(--shadow-xs)' }}
           >
-            <div className="w-10 h-10 bg-gray-100 text-gray-600 rounded-lg flex items-center justify-center mb-3 group-hover:bg-blue-700 group-hover:text-white transition-colors">
+            <div className="w-10 h-10 rounded-[10px] flex items-center justify-center mb-3" style={{ background: 'var(--color-surface)', color: 'var(--color-text-secondary)' }}>
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
               </svg>
             </div>
-            <h2 className="text-sm font-bold text-gray-900 mb-1">Manual Entry</h2>
-            <p className="text-xs text-gray-500">Enter all project parameters step-by-step through a guided 4-step form.</p>
-            <p className="text-xs text-gray-400 mt-2 font-medium">4-step form</p>
+            <h2 className="text-sm font-bold mb-1" style={{ color: 'var(--color-text-primary)' }}>Manual Entry</h2>
+            <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>Enter all project parameters step-by-step through a guided 4-step form.</p>
+            <p className="text-xs mt-2 font-medium" style={{ color: 'var(--color-text-muted)' }}>4-step form</p>
           </button>
         </div>
 
-        <p className="text-xs text-gray-400 mt-4 text-center">
+        <p className="text-xs mt-4 text-center" style={{ color: 'var(--color-text-muted)' }}>
           For PDF reports: refer to the document while using Manual Entry.
         </p>
       </div>
@@ -393,49 +399,43 @@ export default function AddProjectPage() {
   if (mode === 'upload') {
     return (
       <div className="animate-fade-in max-w-xl mx-auto">
-        <button onClick={() => setMode('choose')} className="text-gray-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-5">
+        <button onClick={() => setMode('choose')} className="text-xs font-semibold flex items-center gap-1 mb-5" style={{ color: 'var(--color-accent-600)' }}>
           ← Back
         </button>
-        <h1 className="text-xl font-bold text-gray-900 mb-1">Upload Project Report</h1>
-        <p className="text-sm text-gray-500 mb-5">The system will extract available fields. You will review and correct before saving — no data is fabricated for missing fields.</p>
+        <PageHeader title="Upload Project Report" subtitle="The system will extract available fields. You will review and correct before saving — no data is fabricated for missing fields." />
 
-        <div className="bg-white border-2 border-dashed border-gray-300 rounded-xl p-8 text-center hover:border-blue-400 transition-colors">
-          <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-3">
-            <svg className="w-6 h-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="bg-white rounded-[10px] p-8 text-center mt-6" style={{ border: '2px dashed var(--color-border-strong)', boxShadow: 'var(--shadow-xs)' }}>
+          <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: 'var(--color-accent-50)' }}>
+            <svg className="w-6 h-6" style={{ color: 'var(--color-accent-600)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
             </svg>
           </div>
-          <p className="text-sm font-semibold text-gray-800 mb-1">Select Excel file</p>
-          <p className="text-xs text-gray-500 mb-4">Supported: .xlsx, .xls</p>
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold rounded transition-colors"
-          >
-            Choose File
-          </button>
+          <p className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Select Excel file</p>
+          <p className="text-xs mb-4" style={{ color: 'var(--color-text-secondary)' }}>Supported: .xlsx, .xls</p>
+          <Button onClick={() => fileInputRef.current?.click()}>Choose File</Button>
           <input ref={fileInputRef} type="file" accept=".xlsx,.xls,.pdf" onChange={handleFileUpload} className="hidden" />
         </div>
 
         {uploadStatus === 'parsing' && (
-          <div className="mt-4 flex items-center gap-2 text-sm text-blue-700">
-            <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <div className="mt-4 flex items-center gap-2 text-sm" style={{ color: 'var(--color-accent-700)' }}>
+            <div className="w-4 h-4 rounded-full animate-spin" style={{ border: '2px solid var(--color-accent-600)', borderTopColor: 'transparent' }} />
             Parsing file…
           </div>
         )}
         {uploadStatus === 'error' && (
-          <div className="mt-4 p-3 bg-amber-50 border border-amber-200 rounded text-xs text-amber-800">{uploadMessage}</div>
+          <div className="mt-4 p-3 rounded-md text-xs" style={{ background: 'var(--risk-medium-bg)', border: '1px solid var(--risk-medium-border)', color: 'var(--risk-medium)' }}>{uploadMessage}</div>
         )}
 
-        <div className="mt-5 p-3 bg-blue-50 border border-blue-100 rounded text-xs text-blue-800 space-y-1">
+        <div className="mt-5 p-3 rounded-md text-xs space-y-1" style={{ background: 'var(--color-accent-50)', border: '1px solid var(--color-accent-100)', color: 'var(--color-accent-700)' }}>
           <strong>Expected Excel format:</strong>
           <p>Column A: Field name (e.g. "project_name", "land_area", "approvals_required")</p>
           <p>Column B: Value</p>
           <p>One field per row. Field names should match the data dictionary.</p>
         </div>
 
-        <button onClick={() => setMode('manual')} className="mt-4 w-full py-2 text-sm text-gray-500 hover:text-blue-700 border border-gray-200 rounded bg-white transition-colors">
+        <Button variant="secondary" onClick={() => setMode('manual')} className="mt-4 w-full">
           Use manual entry instead →
-        </button>
+        </Button>
       </div>
     );
   }
@@ -444,19 +444,18 @@ export default function AddProjectPage() {
   return (
     <div className="animate-fade-in max-w-3xl mx-auto">
       <div className="mb-5">
-        <button onClick={() => setMode('choose')} className="text-gray-500 hover:text-blue-700 text-sm flex items-center gap-1 mb-3 transition-colors">
+        <button onClick={() => setMode('choose')} className="text-xs font-semibold flex items-center gap-1 mb-3" style={{ color: 'var(--color-accent-600)' }}>
           ← Back
         </button>
-        <h1 className="text-xl font-bold text-gray-900">Add New Project</h1>
-        <p className="text-sm text-gray-500 mt-1">Enter current state data — the system will generate a delay-risk prediction after saving.</p>
+        <PageHeader title="Add New Project" subtitle="Enter current state data — the system will generate a delay-risk prediction after saving." />
       </div>
 
       {/* Upload status banner (shown if came from upload) */}
       {uploadStatus === 'done' && (
-        <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded text-xs text-green-800">
+        <div className="mb-4 p-3 rounded-md text-xs" style={{ background: 'var(--risk-low-bg)', border: '1px solid var(--risk-low-border)', color: 'var(--risk-low)' }}>
           <strong>Upload complete:</strong> {extractedFields.length} fields extracted.
           {missingFields.length > 0 && (
-            <span className="ml-2 text-amber-700">
+            <span className="ml-2" style={{ color: 'var(--risk-medium)' }}>
               Missing required: {missingFields.join(', ')}. Please fill these in below.
             </span>
           )}
@@ -464,34 +463,29 @@ export default function AddProjectPage() {
       )}
 
       {/* Inline upload option */}
-      <div className="mb-5 flex items-center gap-3 p-3 bg-white border border-gray-200 rounded-lg">
-        <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="mb-5 flex items-center gap-3 p-3 bg-white rounded-[10px]" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-xs)' }}>
+        <svg className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--color-text-muted)' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
         </svg>
-        <span className="text-xs text-gray-500 flex-1">Have an Excel report? Upload to auto-fill fields.</span>
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          className="px-3 py-1.5 bg-gray-100 hover:bg-blue-50 border border-gray-300 text-gray-700 text-xs font-medium rounded transition-colors"
-        >
-          Upload Excel
-        </button>
+        <span className="text-xs flex-1" style={{ color: 'var(--color-text-secondary)' }}>Have an Excel report? Upload to auto-fill fields.</span>
+        <Button variant="secondary" size="sm" onClick={() => fileInputRef.current?.click()}>Upload Excel</Button>
         <input ref={fileInputRef} type="file" accept=".xlsx,.xls,.pdf" onChange={handleFileUpload} className="hidden" />
       </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-300 rounded text-red-700 text-sm">
+        <div className="mb-4 p-3 rounded-md text-sm" style={{ background: 'var(--risk-critical-bg)', border: '1px solid var(--risk-critical-border)', color: 'var(--risk-critical)' }}>
           <strong>Error:</strong> {error}
         </div>
       )}
 
       <StepIndicator current={step} total={STEPS.length} />
 
-      <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-5 shadow-sm">
+      <div className="bg-white rounded-[10px] p-6 space-y-5" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-xs)' }}>
 
         {/* Step 0 */}
         {step === 0 && (
           <>
-            <h2 className="text-sm font-semibold text-gray-800 border-b border-gray-100 pb-2">Project Information</h2>
+            <h2 className="text-sm font-semibold pb-2" style={{ color: 'var(--color-text-primary)', borderBottom: '1px solid var(--color-border)' }}>Project Information</h2>
             <FormField label="Project Name" required>
               <input className={inputClass} placeholder="e.g. NH-48 Widening Phase 2" value={form.project_name} onChange={set('project_name')} />
             </FormField>
@@ -555,7 +549,7 @@ export default function AddProjectPage() {
         {/* Step 1 */}
         {step === 1 && (
           <>
-            <h2 className="text-sm font-semibold text-gray-800 mb-1">Administrative Approvals</h2>
+            <h2 className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Administrative Approvals</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Approvals Required" required>
                 <input type="number" className={inputClass} value={form.approvals_required} onChange={set('approvals_required')} min="0" />
@@ -574,7 +568,7 @@ export default function AddProjectPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Legal & Disputes</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Legal & Disputes</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Total Legal Cases">
                 <input type="number" className={inputClass} value={form.legal_cases_total} onChange={set('legal_cases_total')} min="0" />
@@ -595,7 +589,7 @@ export default function AddProjectPage() {
         {/* Step 2 */}
         {step === 2 && (
           <>
-            <h2 className="text-sm font-semibold text-gray-800 mb-1">Compensation</h2>
+            <h2 className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Compensation</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Total Amount (₹ Cr)" required>
                 <input type="number" className={inputClass} placeholder="e.g. 450.0" value={form.compensation_total_amount} onChange={set('compensation_total_amount')} min="0" step="0.1" />
@@ -614,7 +608,7 @@ export default function AddProjectPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Documentation</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Documentation</h2>
             <div className="grid grid-cols-3 gap-4">
               <FormField label="Docs Required" required>
                 <input type="number" className={inputClass} value={form.documents_required} onChange={set('documents_required')} min="0" />
@@ -627,7 +621,7 @@ export default function AddProjectPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Statutory Notifications</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Statutory Notifications</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Notifications Required" required>
                 <input type="number" className={inputClass} value={form.notifications_required} onChange={set('notifications_required')} min="0" />
@@ -642,7 +636,7 @@ export default function AddProjectPage() {
         {/* Step 3 */}
         {step === 3 && (
           <>
-            <h2 className="text-sm font-semibold text-gray-800 mb-1">Ownership & Parcels</h2>
+            <h2 className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Ownership & Parcels</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Total Parcels" required>
                 <input type="number" className={inputClass} value={form.parcels_total} onChange={set('parcels_total')} min="0" />
@@ -658,7 +652,7 @@ export default function AddProjectPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Rehabilitation & Resettlement</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Rehabilitation & Resettlement</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="R&R Families Required">
                 <input type="number" className={inputClass} value={form.rr_families_required} onChange={set('rr_families_required')} min="0" />
@@ -668,7 +662,7 @@ export default function AddProjectPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Possession</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Possession</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Land Required (ha)" required>
                 <input type="number" className={inputClass} value={form.land_required_for_possession} onChange={set('land_required_for_possession')} min="0" step="0.1" placeholder={form.land_area || 'e.g. 250'} />
@@ -678,7 +672,7 @@ export default function AddProjectPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Stakeholder & Coordination</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Stakeholder & Coordination</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Stakeholder Requests">
                 <input type="number" className={inputClass} value={form.stakeholder_requests_raised} onChange={set('stakeholder_requests_raised')} min="0" />
@@ -705,34 +699,19 @@ export default function AddProjectPage() {
 
       {/* Nav Buttons */}
       <div className="flex justify-between items-center mt-5">
-        <button
-          onClick={() => step > 0 ? setStep(s => s - 1) : setMode('choose')}
-          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded border border-gray-300 transition-colors"
-        >
+        <Button variant="secondary" onClick={() => step > 0 ? setStep(s => s - 1) : setMode('choose')}>
           {step === 0 ? 'Cancel' : '← Back'}
-        </button>
+        </Button>
         <div className="flex items-center gap-3">
-          <span className="text-xs text-gray-400">Step {step + 1} of {STEPS.length}</span>
+          <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>Step {step + 1} of {STEPS.length}</span>
           {step < STEPS.length - 1 ? (
-            <button
-              onClick={() => setStep(s => s + 1)}
-              disabled={!validateStep()}
-              className="px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-            >
+            <Button onClick={() => setStep(s => s + 1)} disabled={!validateStep()}>
               Next →
-            </button>
+            </Button>
           ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={submitting || !validateStep()}
-              className="px-6 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold rounded transition-colors disabled:opacity-40 flex items-center gap-2"
-            >
-              {submitting ? (
-                <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Saving…</>
-              ) : (
-                <>Create Project & Predict →</>
-              )}
-            </button>
+            <Button onClick={handleSubmit} disabled={submitting || !validateStep()} loading={submitting}>
+              {submitting ? 'Saving…' : 'Create Project & Predict →'}
+            </Button>
           )}
         </div>
       </div>

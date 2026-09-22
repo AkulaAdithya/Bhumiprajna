@@ -8,37 +8,27 @@
 import { useState, useEffect, useCallback } from 'react';
 import Plot from 'react-plotly.js';
 import { api } from '../../services/api';
+import { PageHeader, Button, SectionCard, EmptyState } from '../../components/shared';
 
 const RISK_COLORS: Record<string, string> = {
-  CRITICAL: '#ef4444', HIGH: '#f97316', MEDIUM: '#eab308',
-  LOW: '#10b981', NO_PREDICTION: '#64748b',
+  CRITICAL: '#b8271f', HIGH: '#c2530c', MEDIUM: '#b5730a',
+  LOW: '#157f45', NO_PREDICTION: '#93816d',
 };
+
+const GRID_COLOR = '#ede1d0';
 
 const PLOTLY_LAYOUT_BASE = {
   paper_bgcolor: 'rgba(0,0,0,0)',
   plot_bgcolor: 'rgba(0,0,0,0)',
-  font: { color: '#374151', family: 'Inter, sans-serif', size: 12 },
+  font: { color: '#5a4c3d', family: 'Inter, sans-serif', size: 12 },
   margin: { l: 40, r: 20, t: 30, b: 40 },
   showlegend: false,
 };
 
 const PLOTLY_CONFIG = { displayModeBar: false, responsive: true };
 
-
-function ChartCard({ title, sub, children, className = '' }: { title: string; sub?: string; children: React.ReactNode; className?: string }) {
-  return (
-    <div className={`bg-white border border-gray-200 rounded-xl p-5 shadow-sm ${className}`}>
-      <div className="mb-3">
-        <h3 className="text-sm font-semibold text-gray-800">{title}</h3>
-        {sub && <p className="text-xs text-gray-400 mt-0.5">{sub}</p>}
-      </div>
-      {children}
-    </div>
-  );
-}
-
 function Skeleton() {
-  return <div className="h-52 bg-gray-100 rounded-lg animate-pulse" />;
+  return <div className="h-52 rounded-lg animate-pulse" style={{ background: 'var(--color-surface)' }} />;
 }
 
 export default function AnalyticsPage() {
@@ -92,14 +82,14 @@ export default function AnalyticsPage() {
         type: 'bar' as const,
         x: stages.map(s => s.length > 20 ? s.slice(0, 18) + '…' : s),
         y: stages.map(s => d[s]),
-        marker: { color: '#6366f1' },
+        marker: { color: '#24663f' },
         hovertemplate: '<b>%{x}</b><br>%{y} projects<extra></extra>',
       }],
       prob: [{
         type: 'bar' as const,
         x: stages.map(s => s.length > 20 ? s.slice(0, 18) + '…' : s),
         y: stages.map(s => probs[s] ? Math.round(probs[s] * 100) : 0),
-        marker: { color: '#f97316' },
+        marker: { color: '#c2530c' },
         hovertemplate: '<b>%{x}</b><br>Avg: %{y}%<extra></extra>',
       }],
     };
@@ -114,15 +104,15 @@ export default function AnalyticsPage() {
         name: 'Avg Delay Probability',
         x: weeks.map((w: any) => w.week_start),
         y: weeks.map((w: any) => w.avg_delay_probability !== null ? Math.round((w.avg_delay_probability || 0) * 100) : null),
-        line: { color: '#f97316', width: 2 },
-        marker: { size: 5, color: '#f97316' },
+        line: { color: '#b8623a', width: 2 },
+        marker: { size: 5, color: '#b8623a' },
         hovertemplate: 'Week: %{x}<br>Avg Prob: %{y}%<extra></extra>',
       },
       {
         type: 'bar' as const, name: 'Critical',
         x: weeks.map((w: any) => w.week_start),
         y: weeks.map((w: any) => w.critical || 0),
-        marker: { color: 'rgba(239,68,68,0.7)' },
+        marker: { color: 'rgba(184,39,31,0.75)' },
         yaxis: 'y2',
         hovertemplate: 'Week: %{x}<br>Critical: %{y}<extra></extra>',
       },
@@ -130,7 +120,7 @@ export default function AnalyticsPage() {
         type: 'bar' as const, name: 'High',
         x: weeks.map((w: any) => w.week_start),
         y: weeks.map((w: any) => w.high || 0),
-        marker: { color: 'rgba(249,115,22,0.7)' },
+        marker: { color: 'rgba(194,83,12,0.75)' },
         yaxis: 'y2',
         hovertemplate: 'Week: %{x}<br>High: %{y}<extra></extra>',
       },
@@ -152,7 +142,7 @@ export default function AnalyticsPage() {
       marker: {
         color: d.map(s => {
           const p = s.avg_delay_probability || 0;
-          return p >= 0.75 ? '#ef4444' : p >= 0.5 ? '#f97316' : p >= 0.25 ? '#eab308' : '#10b981';
+          return p >= 0.75 ? '#b8271f' : p >= 0.5 ? '#c2530c' : p >= 0.25 ? '#b5730a' : '#157f45';
         }),
       },
       hovertemplate: '<b>%{y}</b><br>Avg: %{x}%<extra></extra>',
@@ -167,7 +157,7 @@ export default function AnalyticsPage() {
       type: 'bar' as const,
       x: labels,
       y: labels.map(k => d[k]),
-      marker: { color: ['#10b981', '#6366f1', '#f97316', '#ef4444'] },
+      marker: { color: ['#157f45', '#b5730a', '#c2530c', '#b8271f'] },
       hovertemplate: '<b>%{x}</b><br>%{y} projects<extra></extra>',
     }];
   };
@@ -182,7 +172,7 @@ export default function AnalyticsPage() {
       orientation: 'h' as const,
       x: entries.map(([, v]) => v),
       y: entries.map(([k]) => k),
-      marker: { color: '#8b5cf6' },
+      marker: { color: '#b8623a' },
       hovertemplate: '<b>%{y}</b><br>Avg: %{x:.1f}<extra></extra>',
     }];
   };
@@ -192,44 +182,44 @@ export default function AnalyticsPage() {
 
   const noData = !loading && !overview?.total_ongoing;
 
+  const noDataIcon = (
+    <svg className="w-14 h-14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+    </svg>
+  );
+
   return (
-    <div className="animate-fade-in space-y-6">
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-bold" style={{ color: '#0f2144' }}>Analytics</h1>
-          <p className="text-xs text-gray-400 mt-1">
-            Descriptive analytics from your operational data. Predictions are generated by the ML model separately.
-          </p>
-        </div>
-        <div className="flex gap-2 text-xs">
-          {[30, 90, 180, 365].map(d => (
-            <button
-              key={d}
-              onClick={() => setTrendDays(d)}
-              className={`px-3 py-1.5 rounded-lg transition-colors border ${
-                trendDays === d ? 'bg-blue-700 text-white border-blue-700' : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
-              }`}
-            >
-              {d}d
-            </button>
-          ))}
-        </div>
-      </div>
+    <div className="animate-fade-in flex flex-col gap-6">
+      <PageHeader
+        title="Analytics"
+        subtitle="Descriptive analytics from your operational data. Predictions are generated by the ML model separately."
+        action={
+          <div className="flex gap-2">
+            {[30, 90, 180, 365].map(d => (
+              <Button
+                key={d}
+                variant={trendDays === d ? 'primary' : 'secondary'}
+                size="sm"
+                onClick={() => setTrendDays(d)}
+              >
+                {d}d
+              </Button>
+            ))}
+          </div>
+        }
+      />
 
       {noData ? (
-        <div className="flex flex-col items-center justify-center py-24 text-gray-400">
-          <svg className="w-14 h-14 mb-4 opacity-30" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-          </svg>
-          <p className="text-base font-medium">No data available yet</p>
-          <p className="text-sm mt-1">Add projects to see analytics here.</p>
-        </div>
+        <EmptyState
+          icon={noDataIcon}
+          title="No data available yet"
+          description="Add projects to see analytics here."
+        />
       ) : (
         <>
           {/* Row 1: Risk Pie + Stage Count + Stage Prob */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <ChartCard title="Risk Distribution" sub="Ongoing projects by risk level">
+            <SectionCard title="Risk Distribution" subtitle="Ongoing projects by risk level">
               {loading ? <Skeleton /> : riskPieData() ? (
                 <Plot
                   data={riskPieData()!}
@@ -241,16 +231,16 @@ export default function AnalyticsPage() {
                       text: `${overview?.total_ongoing ?? 0}<br>projects`,
                       x: 0.5, y: 0.5, xref: 'paper', yref: 'paper',
                       showarrow: false,
-                      font: { size: 13, color: '#e2e8f0' },
+                      font: { size: 13, color: '#5a4c3d' },
                     }],
                   }}
                   config={PLOTLY_CONFIG}
                   style={{ width: '100%', height: 210 }}
                 />
-              ) : <p className="text-gray-400 text-sm">No data</p>}
-            </ChartCard>
+              ) : <p className="text-[var(--color-text-muted)] text-sm">No data</p>}
+            </SectionCard>
 
-            <ChartCard title="Projects by Stage" sub="Count per acquisition stage">
+            <SectionCard title="Projects by Stage" subtitle="Count per acquisition stage">
               {loading ? <Skeleton /> : stageBars ? (
                 <Plot
                   data={stageBars.count}
@@ -258,15 +248,15 @@ export default function AnalyticsPage() {
                     ...PLOTLY_LAYOUT_BASE,
                     height: 210,
                     xaxis: { tickangle: -25, tickfont: { size: 9 } },
-                    yaxis: { gridcolor: '#f1f5f9' },
+                    yaxis: { gridcolor: GRID_COLOR },
                   }}
                   config={PLOTLY_CONFIG}
                   style={{ width: '100%', height: 210 }}
                 />
-              ) : <p className="text-gray-400 text-sm">No data</p>}
-            </ChartCard>
+              ) : <p className="text-[var(--color-text-muted)] text-sm">No data</p>}
+            </SectionCard>
 
-            <ChartCard title="Avg Delay Prob by Stage" sub="Model output grouped by stage">
+            <SectionCard title="Avg Delay Prob by Stage" subtitle="Model output grouped by stage">
               {loading ? <Skeleton /> : stageBars ? (
                 <Plot
                   data={stageBars.prob}
@@ -274,19 +264,19 @@ export default function AnalyticsPage() {
                     ...PLOTLY_LAYOUT_BASE,
                     height: 210,
                     xaxis: { tickangle: -25, tickfont: { size: 9 } },
-                    yaxis: { gridcolor: '#f1f5f9', title: { text: '%', font: { size: 10 } } },
+                    yaxis: { gridcolor: GRID_COLOR, title: { text: '%', font: { size: 10 } } },
                   }}
                   config={PLOTLY_CONFIG}
                   style={{ width: '100%', height: 210 }}
                 />
-              ) : <p className="text-gray-400 text-sm">No data</p>}
-            </ChartCard>
+              ) : <p className="text-[var(--color-text-muted)] text-sm">No data</p>}
+            </SectionCard>
           </div>
 
           {/* Row 2: Trend over time (full width) */}
-          <ChartCard
+          <SectionCard
             title={`Risk Trend — Last ${trendDays} Days`}
-            sub="Weekly avg delay probability (line, left axis) and risk count breakdown (bars, right axis)"
+            subtitle="Weekly avg delay probability (line, left axis) and risk count breakdown (bars, right axis)"
           >
             {loading ? <Skeleton /> : trend ? (
               <Plot
@@ -297,23 +287,23 @@ export default function AnalyticsPage() {
                   barmode: 'stack',
                   showlegend: true,
                   legend: { orientation: 'h', x: 0, y: 1.1, font: { size: 11 } },
-                  xaxis: { gridcolor: '#1e293b' },
-                  yaxis: { title: { text: 'Avg Prob %', font: { size: 10 } }, gridcolor: '#1e293b', range: [0, 100] },
+                  xaxis: { gridcolor: GRID_COLOR },
+                  yaxis: { title: { text: 'Avg Prob %', font: { size: 10 } }, gridcolor: GRID_COLOR, range: [0, 100] },
                   yaxis2: { title: { text: 'Count', font: { size: 10 } }, overlaying: 'y', side: 'right', gridcolor: 'rgba(0,0,0,0)' },
                 }}
                 config={PLOTLY_CONFIG}
                 style={{ width: '100%', height: 260 }}
               />
             ) : (
-              <div className="h-52 flex items-center justify-center text-gray-400 text-sm">
+              <div className="h-52 flex items-center justify-center text-[var(--color-text-muted)] text-sm">
                 Not enough data for trend analysis yet.
               </div>
             )}
-          </ChartCard>
+          </SectionCard>
 
           {/* Row 3: State Comparison + Avg Risk Drivers */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <ChartCard title="State-wise Risk Profile" sub="Avg delay probability by state">
+            <SectionCard title="State-wise Risk Profile" subtitle="Avg delay probability by state">
               {loading ? <Skeleton /> : stateCompData() ? (
                 <Plot
                   data={stateCompData()!}
@@ -321,16 +311,16 @@ export default function AnalyticsPage() {
                     ...PLOTLY_LAYOUT_BASE,
                     height: 240,
                     margin: { l: 120, r: 60, t: 20, b: 40 },
-                    xaxis: { gridcolor: '#f1f5f9', title: { text: '%', font: { size: 10 } } },
+                    xaxis: { gridcolor: GRID_COLOR, title: { text: '%', font: { size: 10 } } },
                     yaxis: { tickfont: { size: 11 } },
                   }}
                   config={PLOTLY_CONFIG}
                   style={{ width: '100%', height: 240 }}
                 />
-              ) : <p className="text-gray-400 text-sm">No multi-state data</p>}
-            </ChartCard>
+              ) : <p className="text-[var(--color-text-muted)] text-sm">No multi-state data</p>}
+            </SectionCard>
 
-            <ChartCard title="Avg Risk Drivers" sub="Mean pending counts across all active projects">
+            <SectionCard title="Avg Risk Drivers" subtitle="Mean pending counts across all active projects">
               {loading ? <Skeleton /> : riskDriversData() ? (
                 <Plot
                   data={riskDriversData()!}
@@ -338,18 +328,18 @@ export default function AnalyticsPage() {
                     ...PLOTLY_LAYOUT_BASE,
                     height: 240,
                     margin: { l: 160, r: 30, t: 20, b: 40 },
-                    xaxis: { gridcolor: '#f1f5f9' },
+                    xaxis: { gridcolor: GRID_COLOR },
                     yaxis: { tickfont: { size: 11 } },
                   }}
                   config={PLOTLY_CONFIG}
                   style={{ width: '100%', height: 240 }}
                 />
-              ) : <p className="text-gray-400 text-sm">No data</p>}
-            </ChartCard>
+              ) : <p className="text-[var(--color-text-muted)] text-sm">No data</p>}
+            </SectionCard>
           </div>
 
           {/* Row 4: Data Freshness */}
-          <ChartCard title="Data Freshness" sub="How many days since last snapshot was entered">
+          <SectionCard title="Data Freshness" subtitle="How many days since last snapshot was entered">
             {loading ? <Skeleton /> : freshnessData() ? (
               <Plot
                 data={freshnessData()!}
@@ -357,16 +347,16 @@ export default function AnalyticsPage() {
                   ...PLOTLY_LAYOUT_BASE,
                   height: 180,
                   xaxis: { title: { text: 'Age of last snapshot', font: { size: 10 } } },
-                  yaxis: { gridcolor: '#f1f5f9', title: { text: 'Projects', font: { size: 10 } } },
+                  yaxis: { gridcolor: GRID_COLOR, title: { text: 'Projects', font: { size: 10 } } },
                 }}
                 config={PLOTLY_CONFIG}
                 style={{ width: '100%', height: 180 }}
               />
-            ) : <p className="text-gray-400 text-sm">No data</p>}
-          </ChartCard>
+            ) : <p className="text-[var(--color-text-muted)] text-sm">No data</p>}
+          </SectionCard>
 
           {/* Footer note */}
-          <p className="text-xs text-gray-500 text-center pb-2">
+          <p className="text-xs text-[var(--color-text-muted)] text-center pb-2">
             Analytics are descriptive summaries of entered operational data. Model predictions are generated independently by the LightGBM prediction engine.
           </p>
         </>

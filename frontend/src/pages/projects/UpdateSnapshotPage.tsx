@@ -9,6 +9,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { api } from '../../services/api';
+import { PageHeader, Button } from '../../components/shared';
 
 const STEPS = ['Project Stage', 'Legal & Approvals', 'Compensation & Docs', 'R&R & Possession'];
 
@@ -18,18 +19,22 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
       {STEPS.map((label, i) => (
         <React.Fragment key={i}>
           <div className="flex items-center gap-2">
-            <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
-              i < current ? 'bg-blue-700 text-white' :
-              i === current ? 'bg-blue-800 text-white ring-2 ring-blue-300' :
-              'bg-gray-200 text-gray-500'
-            }`}>
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-all"
+              style={
+                i < current ? { background: 'var(--color-accent-600)', color: '#fff' } :
+                i === current ? { background: 'var(--color-accent-700)', color: '#fff', boxShadow: '0 0 0 2px var(--color-accent-200)' } :
+                { background: 'var(--color-border)', color: 'var(--color-text-muted)' }
+              }
+            >
               {i < current ? '✓' : i + 1}
             </div>
-            <span className={`text-xs font-medium hidden sm:block ${
-              i === current ? 'text-blue-900' : i < current ? 'text-gray-500' : 'text-gray-400'
-            }`}>{label}</span>
+            <span
+              className="text-xs font-medium hidden sm:block"
+              style={{ color: i === current ? 'var(--color-text-primary)' : i < current ? 'var(--color-text-secondary)' : 'var(--color-text-muted)' }}
+            >{label}</span>
           </div>
-          {i < total - 1 && <div className={`flex-1 h-0.5 ${i < current ? 'bg-blue-700' : 'bg-gray-200'}`} />}
+          {i < total - 1 && <div className="flex-1 h-0.5" style={{ background: i < current ? 'var(--color-accent-600)' : 'var(--color-border)' }} />}
         </React.Fragment>
       ))}
     </div>
@@ -39,11 +44,11 @@ function StepIndicator({ current, total }: { current: number; total: number }) {
 function FormField({ label, required, hint, children }: { label: string; required?: boolean; hint?: string; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs font-semibold text-gray-600 mb-1 uppercase tracking-wide">
-        {label}{required && <span className="text-red-500 ml-1">*</span>}
+      <label className="field-label">
+        {label}{required && <span style={{ color: 'var(--risk-critical)' }} className="ml-1">*</span>}
       </label>
       {children}
-      {hint && <p className="text-xs text-gray-400 mt-1">{hint}</p>}
+      {hint && <p className="text-xs mt-1" style={{ color: 'var(--color-text-muted)' }}>{hint}</p>}
     </div>
   );
 }
@@ -116,7 +121,7 @@ function mapExtractedToForm(raw: Record<string, any>): Partial<Record<string, st
   return result;
 }
 
-const inputClass = "w-full px-3 py-2 bg-white border border-gray-300 text-gray-900 rounded text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-gray-400 transition-all";
+const inputClass = "field-input";
 
 export default function UpdateSnapshotPage() {
   const { id } = useParams<{ id: string }>();
@@ -354,13 +359,13 @@ export default function UpdateSnapshotPage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 rounded-full animate-spin" style={{ border: '2px solid var(--color-accent-600)', borderTopColor: 'transparent' }} />
       </div>
     );
   }
 
   if (!project) {
-    return <div className="text-gray-500 text-center py-20">Project not found.</div>;
+    return <div className="text-center py-20" style={{ color: 'var(--color-text-muted)' }}>Project not found.</div>;
   }
 
   const stageList = stages.length > 0 ? stages.map((s: any) => s.name) :
@@ -370,42 +375,42 @@ export default function UpdateSnapshotPage() {
   return (
     <div className="animate-fade-in max-w-3xl mx-auto">
       {/* Breadcrumb */}
-      <div className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-        <button onClick={() => navigate('/projects')} className="hover:text-blue-700 transition-colors">Projects</button>
+      <div className="flex items-center gap-2 text-sm mb-4" style={{ color: 'var(--color-text-muted)' }}>
+        <button onClick={() => navigate('/projects')} className="text-xs font-semibold" style={{ color: 'var(--color-accent-600)' }}>Projects</button>
         <span>/</span>
-        <button onClick={() => navigate(`/projects/${id}`)} className="hover:text-blue-700 transition-colors truncate max-w-xs">{project.project_name}</button>
+        <button onClick={() => navigate(`/projects/${id}`)} className="text-xs font-semibold truncate max-w-xs" style={{ color: 'var(--color-accent-600)' }}>{project.project_name}</button>
         <span>/</span>
-        <span className="text-gray-800">Update Data</span>
+        <span style={{ color: 'var(--color-text-primary)' }}>Update Data</span>
       </div>
 
       <div className="mb-5">
-        <h1 className="text-xl font-bold text-gray-900">Update Project Data</h1>
-        <p className="text-sm text-gray-500 mt-1">
-          {project.project_name} · {project.district}, {project.state}
-          · Current stage: <span className="font-medium text-gray-700">{project.current_stage}</span>
-          · Last snapshot: <span className="font-mono">{project.snapshot_date}</span>
-        </p>
-        <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded text-xs text-blue-800">
+        <PageHeader
+          title="Update Project Data"
+          subtitle={`${project.project_name} · ${project.district}, ${project.state} · Current stage: ${project.current_stage} · Last snapshot: ${project.snapshot_date}`}
+        />
+        <div className="mt-2 p-2 rounded-md text-xs" style={{ background: 'var(--color-accent-50)', border: '1px solid var(--color-accent-100)', color: 'var(--color-accent-700)' }}>
           A new snapshot will be created — historical data is preserved. The ML model will re-predict after saving.
         </div>
       </div>
 
       {/* Upload section */}
-      <div className="mb-5 bg-white border border-gray-200 rounded-lg p-4">
+      <div className="mb-5 bg-white rounded-[10px] p-4" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-xs)' }}>
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h2 className="text-sm font-semibold text-gray-800">Upload Project Report (Optional)</h2>
-            <p className="text-xs text-gray-500 mt-0.5">Upload Excel (.xlsx) to auto-fill fields. Review and correct before saving.</p>
+            <h2 className="text-sm font-semibold" style={{ color: 'var(--color-text-primary)' }}>Upload Project Report (Optional)</h2>
+            <p className="text-xs mt-0.5" style={{ color: 'var(--color-text-secondary)' }}>Upload Excel (.xlsx) to auto-fill fields. Review and correct before saving.</p>
           </div>
-          <button
+          <Button
+            size="sm"
+            icon={
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+              </svg>
+            }
             onClick={() => fileInputRef.current?.click()}
-            className="flex items-center gap-2 px-3 py-2 bg-blue-700 hover:bg-blue-800 text-white text-xs font-semibold rounded transition-colors"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-            </svg>
             Upload Excel / PDF
-          </button>
+          </Button>
           <input
             ref={fileInputRef}
             type="file"
@@ -415,37 +420,37 @@ export default function UpdateSnapshotPage() {
           />
         </div>
         {uploadStatus === 'parsing' && (
-          <div className="flex items-center gap-2 text-sm text-blue-700">
-            <div className="w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+          <div className="flex items-center gap-2 text-sm" style={{ color: 'var(--color-accent-700)' }}>
+            <div className="w-4 h-4 rounded-full animate-spin" style={{ border: '2px solid var(--color-accent-600)', borderTopColor: 'transparent' }} />
             Parsing file...
           </div>
         )}
         {uploadStatus === 'done' && (
-          <div className="p-2 bg-green-50 border border-green-200 rounded text-xs text-green-800">
+          <div className="p-2 rounded-md text-xs" style={{ background: 'var(--risk-low-bg)', border: '1px solid var(--risk-low-border)', color: 'var(--risk-low)' }}>
             <span className="font-semibold">Extracted fields:</span> {extractedFields.join(', ')}
             <br />{uploadMessage}
           </div>
         )}
         {uploadStatus === 'error' && (
-          <div className="p-2 bg-amber-50 border border-amber-200 rounded text-xs text-amber-800">{uploadMessage}</div>
+          <div className="p-2 rounded-md text-xs" style={{ background: 'var(--risk-medium-bg)', border: '1px solid var(--risk-medium-border)', color: 'var(--risk-medium)' }}>{uploadMessage}</div>
         )}
       </div>
 
       {/* Error display */}
       {error && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-300 rounded text-red-700 text-sm">
+        <div className="mb-4 p-3 rounded-md text-sm" style={{ background: 'var(--risk-critical-bg)', border: '1px solid var(--risk-critical-border)', color: 'var(--risk-critical)' }}>
           <strong>Error:</strong> {error}
         </div>
       )}
 
       <StepIndicator current={step} total={STEPS.length} />
 
-      <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-5 shadow-sm">
+      <div className="bg-white rounded-[10px] p-6 space-y-5" style={{ border: '1px solid var(--color-border)', boxShadow: 'var(--shadow-xs)' }}>
 
         {/* Step 0: Stage & Date */}
         {step === 0 && (
           <>
-            <h2 className="text-sm font-semibold text-gray-800 mb-3 border-b border-gray-100 pb-2">Current Project Stage</h2>
+            <h2 className="text-sm font-semibold mb-3 pb-2" style={{ color: 'var(--color-text-primary)', borderBottom: '1px solid var(--color-border)' }}>Current Project Stage</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Snapshot Date" required hint="Date of this observation/report">
                 <input type="date" className={inputClass} value={form.snapshot_date} onChange={set('snapshot_date')} />
@@ -478,7 +483,7 @@ export default function UpdateSnapshotPage() {
         {/* Step 1: Approvals + Legal */}
         {step === 1 && (
           <>
-            <h2 className="text-sm font-semibold text-gray-800 mb-1">Administrative Approvals</h2>
+            <h2 className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Administrative Approvals</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Approvals Required" required>
                 <input type="number" className={inputClass} value={form.approvals_required} onChange={set('approvals_required')} min="0" />
@@ -497,7 +502,7 @@ export default function UpdateSnapshotPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Legal & Disputes</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Legal & Disputes</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Total Legal Cases">
                 <input type="number" className={inputClass} value={form.legal_cases_total} onChange={set('legal_cases_total')} min="0" />
@@ -518,7 +523,7 @@ export default function UpdateSnapshotPage() {
         {/* Step 2: Compensation + Documentation + Notifications */}
         {step === 2 && (
           <>
-            <h2 className="text-sm font-semibold text-gray-800 mb-1">Compensation</h2>
+            <h2 className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Compensation</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Total Amount (₹ Cr)" required>
                 <input type="number" className={inputClass} value={form.compensation_total_amount} onChange={set('compensation_total_amount')} min="0" step="0.1" />
@@ -537,7 +542,7 @@ export default function UpdateSnapshotPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Documentation</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Documentation</h2>
             <div className="grid grid-cols-3 gap-4">
               <FormField label="Docs Required" required>
                 <input type="number" className={inputClass} value={form.documents_required} onChange={set('documents_required')} min="0" />
@@ -550,7 +555,7 @@ export default function UpdateSnapshotPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Statutory Notifications</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Statutory Notifications</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Notifications Required" required>
                 <input type="number" className={inputClass} value={form.notifications_required} onChange={set('notifications_required')} min="0" />
@@ -565,7 +570,7 @@ export default function UpdateSnapshotPage() {
         {/* Step 3: Ownership + R&R + Possession + Stakeholder + Coordination */}
         {step === 3 && (
           <>
-            <h2 className="text-sm font-semibold text-gray-800 mb-1">Ownership & Parcels</h2>
+            <h2 className="text-sm font-semibold mb-1" style={{ color: 'var(--color-text-primary)' }}>Ownership & Parcels</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Total Parcels" required>
                 <input type="number" className={inputClass} value={form.parcels_total} onChange={set('parcels_total')} min="0" />
@@ -581,7 +586,7 @@ export default function UpdateSnapshotPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Rehabilitation & Resettlement</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Rehabilitation & Resettlement</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="R&R Families Required">
                 <input type="number" className={inputClass} value={form.rr_families_required} onChange={set('rr_families_required')} min="0" />
@@ -591,7 +596,7 @@ export default function UpdateSnapshotPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Possession</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Possession</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Land Required (ha)" required hint={`Project total: ${project.land_area} ha`}>
                 <input type="number" className={inputClass} value={form.land_required_for_possession} onChange={set('land_required_for_possession')} min="0" step="0.1" />
@@ -601,7 +606,7 @@ export default function UpdateSnapshotPage() {
               </FormField>
             </div>
 
-            <h2 className="text-sm font-semibold text-gray-800 mt-4 mb-1">Stakeholder & Coordination</h2>
+            <h2 className="text-sm font-semibold mt-4 mb-1" style={{ color: 'var(--color-text-primary)' }}>Stakeholder & Coordination</h2>
             <div className="grid grid-cols-2 gap-4">
               <FormField label="Stakeholder Requests">
                 <input type="number" className={inputClass} value={form.stakeholder_requests_raised} onChange={set('stakeholder_requests_raised')} min="0" />
@@ -628,34 +633,19 @@ export default function UpdateSnapshotPage() {
 
       {/* Nav Buttons */}
       <div className="flex justify-between items-center mt-5">
-        <button
-          onClick={() => step > 0 ? setStep(s => s - 1) : navigate(`/projects/${id}`)}
-          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded border border-gray-300 transition-colors"
-        >
+        <Button variant="secondary" onClick={() => step > 0 ? setStep(s => s - 1) : navigate(`/projects/${id}`)}>
           {step === 0 ? '← Back to Project' : '← Back'}
-        </button>
+        </Button>
         <div className="flex items-center gap-3">
-          <span className="text-xs text-gray-400">Step {step + 1} of {STEPS.length}</span>
+          <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>Step {step + 1} of {STEPS.length}</span>
           {step < STEPS.length - 1 ? (
-            <button
-              onClick={() => setStep(s => s + 1)}
-              disabled={!validateStep()}
-              className="px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold rounded transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-            >
+            <Button onClick={() => setStep(s => s + 1)} disabled={!validateStep()}>
               Next →
-            </button>
+            </Button>
           ) : (
-            <button
-              onClick={handleSubmit}
-              disabled={submitting || !validateStep()}
-              className="px-6 py-2 bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold rounded transition-colors disabled:opacity-40 flex items-center gap-2"
-            >
-              {submitting ? (
-                <><div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />Saving...</>
-              ) : (
-                <>Save Snapshot & Re-Predict →</>
-              )}
-            </button>
+            <Button onClick={handleSubmit} disabled={submitting || !validateStep()} loading={submitting}>
+              {submitting ? 'Saving...' : 'Save Snapshot & Re-Predict →'}
+            </Button>
           )}
         </div>
       </div>

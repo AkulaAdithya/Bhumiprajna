@@ -6,13 +6,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
-
-const SEVERITY_CONFIG: Record<string, { bg: string; text: string; dot: string; border: string }> = {
-  CRITICAL: { bg: 'bg-red-500/10', text: 'text-red-400', dot: 'bg-red-500', border: 'border-red-500/30' },
-  HIGH:     { bg: 'bg-orange-500/10', text: 'text-orange-400', dot: 'bg-orange-500', border: 'border-orange-500/30' },
-  MEDIUM:   { bg: 'bg-yellow-500/10', text: 'text-yellow-400', dot: 'bg-yellow-500', border: 'border-yellow-500/30' },
-  LOW:      { bg: 'bg-slate-700/50', text: 'text-slate-400', dot: 'bg-slate-500', border: 'border-slate-600' },
-};
+import { PageHeader, Button, RiskBadge, EmptyState, LoadingSpinner, Pagination } from '../../components/shared';
+import type { RiskCategory } from '../../types';
 
 const TYPE_ICONS: Record<string, string> = {
   RISK_ESCALATION: '⚠️',
@@ -20,6 +15,8 @@ const TYPE_ICONS: Record<string, string> = {
   DATA_STALE: '🕐',
   SYSTEM: 'ℹ️',
 };
+
+const EMPTY_ICON = <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>;
 
 export default function NotificationsPage() {
   const navigate = useNavigate();
@@ -80,35 +77,24 @@ export default function NotificationsPage() {
   const totalPages = Math.ceil(total / pageSize);
 
   return (
-    <div className="animate-fade-in space-y-5">
-      {/* Header */}
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-bold" style={{ color: '#0f2144' }}>Notifications</h1>
-          <p className="text-sm text-gray-500 mt-0.5">
-            {unread > 0 ? (
-              <span><span className="text-blue-600 font-semibold">{unread} unread</span> · {total} total</span>
-            ) : (
-              <span>{total} notification{total !== 1 ? 's' : ''}</span>
-            )}
-          </p>
-        </div>
-        {unread > 0 && (
-          <button
-            onClick={handleMarkAllRead}
-            className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
-          >
-            Mark all as read
-          </button>
-        )}
-      </div>
+    <div className="animate-fade-in flex flex-col gap-5">
+      <PageHeader
+        title="Notifications"
+        subtitle={
+          unread > 0
+            ? `${unread} unread · ${total} total`
+            : `${total} notification${total !== 1 ? 's' : ''}`
+        }
+        action={unread > 0 ? <Button variant="secondary" size="sm" onClick={handleMarkAllRead}>Mark all as read</Button> : undefined}
+      />
 
       {/* Filters */}
-      <div className="flex gap-3 flex-wrap">
+      <div className="flex gap-3 flex-wrap items-center">
         <select
           value={severityFilter}
           onChange={e => { setSeverityFilter(e.target.value); setPage(1); }}
-          style={{ padding: '7px 12px', border: '1.5px solid #e2e8f0', borderRadius: 8, fontSize: 13, color: '#374151', background: 'white', outline: 'none' }}
+          className="field-input"
+          style={{ width: 'auto', cursor: 'pointer' }}
         >
           <option value="">All Severities</option>
           <option value="CRITICAL">Critical</option>
@@ -116,46 +102,44 @@ export default function NotificationsPage() {
           <option value="MEDIUM">Medium</option>
           <option value="LOW">Low</option>
         </select>
-        <label className="flex items-center gap-2 text-sm text-gray-600 cursor-pointer">
+        <label className="flex items-center gap-2 text-sm cursor-pointer" style={{ color: 'var(--color-text-secondary)' }}>
           <input
             type="checkbox"
             checked={unreadOnly}
             onChange={e => { setUnreadOnly(e.target.checked); setPage(1); }}
-            className="w-4 h-4 rounded text-blue-600"
+            className="w-4 h-4 rounded"
+            style={{ accentColor: 'var(--color-accent-600)' }}
           />
           Unread only
         </label>
       </div>
 
       {/* List */}
-      <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
+      <div className="bg-white rounded-[10px] border overflow-hidden" style={{ borderColor: 'var(--color-border)', boxShadow: 'var(--shadow-xs)' }}>
         {loading ? (
-          <div className="p-8 space-y-3">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="h-16 bg-gray-100 rounded-lg animate-pulse" />
-            ))}
-          </div>
+          <LoadingSpinner message="Loading notifications…" />
         ) : notifications.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-gray-400">
-            <svg className="w-12 h-12 mb-3 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-            <p className="text-sm font-medium">No notifications</p>
-            <p className="text-xs mt-1">Alerts appear when risk changes or data goes stale.</p>
-          </div>
+          <EmptyState
+            icon={EMPTY_ICON}
+            title="No notifications"
+            description="Alerts appear when risk changes or data goes stale."
+          />
         ) : (
-          <div className="divide-y divide-gray-100">
+          <div className="divide-y" style={{ borderColor: 'var(--color-border)' }}>
             {notifications.map(n => {
-              const cfg = SEVERITY_CONFIG[n.severity] || SEVERITY_CONFIG.LOW;
               const isUnread = !n.read_at;
               return (
                 <div
                   key={n.id}
-                  className={`flex gap-4 px-5 py-4 transition-colors ${isUnread ? 'bg-blue-50/40' : ''} hover:bg-gray-50`}
+                  className="flex gap-4 px-5 py-4 transition-colors card-hover"
+                  style={isUnread ? { background: 'var(--color-accent-50)' } : undefined}
                 >
                   {/* Dot */}
                   <div className="pt-1 flex-shrink-0">
-                    <div className={`w-2 h-2 rounded-full ${isUnread ? cfg.dot : 'bg-gray-300'}`} />
+                    <div
+                      className="w-2 h-2 rounded-full"
+                      style={{ background: isUnread ? 'var(--color-accent-600)' : 'var(--color-border-strong)' }}
+                    />
                   </div>
 
                   {/* Icon */}
@@ -166,19 +150,18 @@ export default function NotificationsPage() {
                   {/* Content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2">
-                      <p className={`text-sm font-medium ${isUnread ? 'text-gray-900' : 'text-gray-600'}`}>
+                      <p className="text-sm font-medium" style={{ color: isUnread ? 'var(--color-text-primary)' : 'var(--color-text-secondary)' }}>
                         {n.message}
                       </p>
-                      <span className={`text-xs flex-shrink-0 px-2 py-0.5 rounded-full font-semibold ${cfg.bg} ${cfg.text}`}>
-                        {n.severity}
-                      </span>
+                      <RiskBadge risk={(n.severity || 'LOW') as RiskCategory} size="sm" showDot={false} />
                     </div>
                     <div className="flex items-center gap-3 mt-1.5">
-                      <span className="text-xs text-gray-400">{formatTime(n.created_at)}</span>
+                      <span className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{formatTime(n.created_at)}</span>
                       {n.project_id && (
                         <button
                           onClick={() => navigate(`/projects/${n.project_id}`)}
-                          className="text-xs text-blue-600 hover:underline font-medium"
+                          className="text-xs font-semibold"
+                          style={{ color: 'var(--color-accent-600)' }}
                         >
                           View project →
                         </button>
@@ -186,7 +169,8 @@ export default function NotificationsPage() {
                       {isUnread && (
                         <button
                           onClick={() => handleMarkRead(n.id)}
-                          className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                          className="text-xs transition-colors"
+                          style={{ color: 'var(--color-text-muted)' }}
                         >
                           Mark read
                         </button>
@@ -200,18 +184,7 @@ export default function NotificationsPage() {
         )}
       </div>
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between text-sm">
-        <span className="text-gray-500">Page {page} of {totalPages}</span>
-          <div className="flex gap-2">
-            <button onClick={() => setPage(p => Math.max(1, p - 1))} disabled={page === 1}
-              style={{ padding: '6px 14px', background: 'white', border: '1px solid #e2e8f0', borderRadius: 6, cursor: page === 1 ? 'not-allowed' : 'pointer', color: page === 1 ? '#94a3b8' : '#374151', fontSize: 13 }}>← Prev</button>
-            <button onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={page === totalPages}
-              style={{ padding: '6px 14px', background: 'white', border: '1px solid #e2e8f0', borderRadius: 6, cursor: page === totalPages ? 'not-allowed' : 'pointer', color: page === totalPages ? '#94a3b8' : '#374151', fontSize: 13 }}>Next →</button>
-          </div>
-        </div>
-      )}
+      <Pagination page={page} totalPages={totalPages} total={total} pageSize={pageSize} onChange={setPage} />
     </div>
   );
 }
