@@ -1,93 +1,110 @@
 /**
  * Bhumi Prajna - Landing Page
- * Light government portal style matching reference design.
- * White/light-blue background, India skyline silhouette, dark navy footer.
+ * Public product overview: hero, approach comparison, capabilities,
+ * process, analysed factors, GIS + explainability previews, technology,
+ * impact, governance and final call to action.
  */
 
+import { Fragment } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import {
+  BrandStyles, Wordmark, JaaliPattern, MotifDivider, RiskMapPreview, RiskLegend, Icon, ICONS,
+} from './authBrand';
 
-// Simple India skyline silhouette as inline SVG
-function IndiaSkyline() {
+const NAV = [
+  { href: '#overview', label: 'Overview' },
+  { href: '#how-it-works', label: 'How It Works' },
+  { href: '#capabilities', label: 'Capabilities' },
+  { href: '#technology', label: 'Technology' },
+  { href: '#impact', label: 'Impact' },
+];
+
+const CURRENT_FLOW = ['Monitor', 'Detect issue', 'Delay becomes visible', 'React'];
+const BP_FLOW = ['Monitor', 'Predict risk', 'Understand cause', 'Prioritize', 'Intervene'];
+
+const CAPABILITIES = [
+  { icon: ICONS.trend, title: 'Predictive Risk', desc: 'Identify projects with elevated delay risk.' },
+  { icon: ICONS.bulb, title: 'Explainable AI', desc: 'Understand the factors contributing to the prediction.' },
+  { icon: ICONS.layers, title: 'Project Prioritization', desc: 'Focus attention on high-risk projects first.' },
+  { icon: ICONS.map, title: 'GIS Intelligence', desc: 'Explore project risk spatially across India.' },
+  { icon: ICONS.bell, title: 'Smart Alerts', desc: 'Surface important changes and emerging risks.' },
+  { icon: ICONS.shield, title: 'Audit & Governance', desc: 'Maintain role-based access and project history.' },
+];
+
+const PROCESS = [
+  { icon: ICONS.database, label: 'Project Data', desc: 'Stage-wise progress records' },
+  { icon: ICONS.cpu, label: 'AI Analysis', desc: 'Pattern learning on history' },
+  { icon: ICONS.gauge, label: 'Risk Prediction', desc: 'Delay likelihood per project' },
+  { icon: ICONS.info, label: 'Explanation', desc: 'Contributing factors' },
+  { icon: ICONS.layers, label: 'Prioritization', desc: 'Ranked attention list' },
+  { icon: ICONS.target, label: 'Intervention', desc: 'Officer-led action' },
+];
+
+const FACTORS = [
+  { icon: ICONS.stamp, label: 'Approvals' },
+  { icon: ICONS.rupee, label: 'Compensation' },
+  { icon: ICONS.scale, label: 'Legal Disputes' },
+  { icon: ICONS.file, label: 'Documentation' },
+  { icon: ICONS.user, label: 'Ownership' },
+  { icon: ICONS.megaphone, label: 'Notifications' },
+  { icon: ICONS.home, label: 'R&R' },
+  { icon: ICONS.flag, label: 'Possession' },
+  { icon: ICONS.users, label: 'Stakeholder Responsiveness' },
+  { icon: ICONS.link, label: 'Coordination' },
+  { icon: ICONS.history, label: 'Historical Patterns' },
+];
+
+const SHAP_SAMPLE = [
+  { label: 'Legal disputes', value: 0.8 },
+  { label: 'Compensation lag', value: 0.6 },
+  { label: 'Pending approvals', value: 0.5 },
+];
+
+const TECH = [
+  { name: 'React + TypeScript', role: 'Officer interface' },
+  { name: 'FastAPI', role: 'Secure service layer' },
+  { name: 'ML / SHAP', role: 'Prediction & explanation' },
+  { name: 'PostgreSQL + PostGIS', role: 'Project & spatial data' },
+  { name: 'GIS / Analytics', role: 'Maps, trends, reports' },
+];
+
+const IMPACT = [
+  { icon: ICONS.clock, label: 'Earlier risk visibility' },
+  { icon: ICONS.layers, label: 'Better prioritization' },
+  { icon: ICONS.info, label: 'Explainable decisions' },
+  { icon: ICONS.map, label: 'Spatial awareness' },
+  { icon: ICONS.eye, label: 'Improved monitoring' },
+  { icon: ICONS.history, label: 'Auditability' },
+  { icon: ICONS.expand, label: 'Scalable integration' },
+];
+
+const GOVERNANCE = [
+  { icon: ICONS.lock, title: 'Role-Based Access', desc: 'Officers see only the projects within their assigned jurisdiction.' },
+  { icon: ICONS.refresh, title: 'Data Freshness', desc: 'Every prediction shows when its underlying data was last updated.' },
+  { icon: ICONS.gauge, title: 'Confidence Indicators', desc: 'Estimates carry a confidence level, so uncertainty is never hidden.' },
+  { icon: ICONS.history, title: 'Audit History', desc: 'Updates, predictions and actions are recorded for later review.' },
+  { icon: ICONS.users, title: 'Human-in-the-Loop', desc: 'The system recommends; authorised officers decide.' },
+];
+
+function SectionHeader({ eyebrow, title, lead, center = true }: { eyebrow: string; title: string; lead?: string; center?: boolean }) {
   return (
-    <div className="w-full overflow-hidden leading-none" style={{ height: 160 }}>
-      <svg viewBox="0 0 1440 160" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg"
-        className="block w-full h-full">
-        {/* Sky gradient behind skyline */}
-        <defs>
-          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#f5e9dd" />
-            <stop offset="100%" stopColor="#ecd7bd" />
-          </linearGradient>
-        </defs>
-        <rect width="1440" height="160" fill="url(#skyGrad)" />
-        {/* Silhouette — simplified India monuments */}
-        <g fill="#dea179" opacity="0.5">
-          {/* Mountains left */}
-          <polygon points="0,160 80,60 160,110 240,40 320,90 400,160" />
-          {/* Minaret / tower */}
-          <rect x="100" y="80" width="8" height="80" />
-          <polygon points="96,80 108,80 104,60" />
-          {/* Dome structure */}
-          <ellipse cx="190" cy="105" rx="22" ry="12" />
-          <rect x="175" y="105" width="30" height="55" />
-          {/* Tall minaret */}
-          <rect x="240" y="55" width="6" height="105" />
-          <polygon points="237,55 249,55 243,35" />
-          {/* India Gate-like arch */}
-          <rect x="650" y="70" width="140" height="90" fill="none" />
-          <path d="M660,160 L660,100 Q720,40 780,100 L780,160 Z" />
-          <rect x="680" y="160" width="80" height="5" />
-          {/* Right mosque */}
-          <rect x="1100" y="80" width="7" height="80" />
-          <polygon points="1097,80 1110,80 1103,58" />
-          <ellipse cx="1155" cy="95" rx="25" ry="14" />
-          <rect x="1130" y="95" width="50" height="65" />
-          {/* Right mountain */}
-          <polygon points="1200,160 1300,50 1400,100 1440,80 1440,160" />
-        </g>
-        {/* Slightly darker second layer */}
-        <g fill="#b8623a" opacity="0.28">
-          <polygon points="0,160 120,90 200,130 300,70 380,120 440,160" />
-          <polygon points="1000,160 1100,85 1200,120 1350,65 1440,100 1440,160" />
-        </g>
-      </svg>
+    <div style={{ textAlign: center ? 'center' : 'left', maxWidth: center ? 680 : undefined, margin: center ? '0 auto 48px' : '0 0 32px' }}>
+      <span className="bp-eyebrow">{eyebrow}</span>
+      <h2 style={{ marginTop: 12 }}>{title}</h2>
+      <MotifDivider align={center ? 'center' : 'left'} />
+      {lead && <p className="bp-lead">{lead}</p>}
     </div>
   );
 }
 
-const STEPS = [
-  { n: 1, label: 'Predict', desc: 'Analyze project data', icon: (
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
-  )},
-  { n: 2, label: 'Explain', desc: 'Identify key factors', icon: (
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
-  )},
-  { n: 3, label: 'Prioritize', desc: 'Assess risk levels', icon: (
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" /></svg>
-  )},
-  { n: 4, label: 'Intervene', desc: 'Enable proactive action', icon: (
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" /></svg>
-  )},
-  { n: 5, label: 'Learn', desc: 'Improve over time', icon: (
-    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" /></svg>
-  )},
-];
-
-const FEATURES = [
-  { icon: (
-    <svg className="w-5 h-5" style={{ color: 'var(--color-accent-600)' }} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" /></svg>
-  ), title: 'Data-Driven Governance', sub: 'Transparent & Accountable' },
-  { icon: (
-    <svg className="w-5 h-5" style={{ color: 'var(--color-accent-600)' }} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z" /></svg>
-  ), title: 'Faster Decision Making', sub: 'Early Risk Detection' },
-  { icon: (
-    <svg className="w-5 h-5" style={{ color: 'var(--color-accent-600)' }} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" /></svg>
-  ), title: 'Efficient Resource Use', sub: 'Better Project Outcomes' },
-  { icon: (
-    <svg className="w-5 h-5" style={{ color: 'var(--color-accent-600)' }} fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" /></svg>
-  ), title: 'Sustainable Development', sub: 'Stronger India' },
-];
+function FlowArrow() {
+  return (
+    <span aria-hidden="true" style={{ color: '#B4AE9F', display: 'inline-flex' }}>
+      <Icon d={ICONS.arrowRight} size={16} />
+    </span>
+  );
+}
 
 export default function LandingPage() {
   const { isAuthenticated } = useAuth();
@@ -97,136 +114,416 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: 'linear-gradient(180deg, #fdf8f3 0%, #f7ecdf 100%)' }}>
-      {/* Top navbar */}
+    <div className="bp min-h-screen">
+      <BrandStyles />
+
+      {/* ── Navbar ── */}
       <header
-        className="flex items-center justify-between px-8 sticky top-0 z-10"
-        style={{ background: 'white', borderBottom: '1px solid var(--color-border)', height: 64 }}
+        className="sticky top-0 z-20"
+        style={{ background: 'rgba(248,247,242,0.92)', backdropFilter: 'blur(8px)', borderBottom: '1px solid var(--bp-border)' }}
       >
-        <div className="flex items-center gap-3">
-          <div
-            className="w-10 h-10 rounded-lg flex items-center justify-center text-lg font-extrabold text-white"
-            style={{ background: 'var(--color-accent-600)' }}
-          >
-            प्र
-          </div>
-          <div>
-            <div className="text-base font-semibold leading-tight" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-display)' }}>Bhumi Prajna</div>
-            <div className="text-[11px] leading-none" style={{ color: 'var(--color-text-secondary)' }}>Land Acquisition Intelligence Platform</div>
-          </div>
+        <div className="bp-container flex items-center justify-between" style={{ height: 68 }}>
+          <a href="#top" aria-label="Bhumi Prajna home"><Wordmark /></a>
+          <nav aria-label="Primary" className="hidden lg:flex items-center gap-1">
+            {NAV.map(n => (
+              <a key={n.href} href={n.href} className="bp-nav-link">{n.label}</a>
+            ))}
+          </nav>
+          <Link to="/login" className="bp-btn bp-btn-primary bp-btn-sm">
+            <Icon d={ICONS.login} size={16} />
+            Officer Login
+          </Link>
         </div>
-        <Link to="/login" className="btn btn-primary btn-md no-underline">
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-          </svg>
-          Officer Login
-        </Link>
       </header>
 
-      {/* Hero */}
-      <main className="flex-1 flex flex-col items-center px-6" style={{ paddingTop: 60 }}>
-        {/* Badge */}
-        <div
-          className="inline-flex items-center gap-1.5 rounded-full text-xs font-medium mb-6"
-          style={{ padding: '5px 14px', background: 'var(--color-accent-50)', border: '1px solid var(--color-accent-200)', color: 'var(--color-accent-600)' }}
-        >
-          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 0 1 3 19.875v-6.75ZM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V8.625ZM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 0 1-1.125-1.125V4.125Z" />
-          </svg>
-          Predictive Analytics for Government
-        </div>
+      <main id="top">
+        {/* ── Hero ── */}
+        <section className="relative overflow-hidden" style={{ borderBottom: '1px solid var(--bp-border)' }}>
+          <JaaliPattern id="bp-hero-jaali" opacity={0.05} />
+          <div className="bp-container relative grid lg:grid-cols-[1.05fr_1fr] gap-12 items-center" style={{ padding: '72px 24px 80px' }}>
+            <div>
+              <span className="bp-eyebrow">Decision support for land acquisition</span>
+              <h1 style={{ marginTop: 16, maxWidth: 580 }}>
+                Predict Land Acquisition Risk Before Delays Become Critical
+              </h1>
+              <p className="bp-lead" style={{ marginTop: 20, maxWidth: 540 }}>
+                Bhumi Prajna transforms project data into explainable risk insights, helping authorities
+                identify emerging bottlenecks, prioritize intervention, and make evidence-based decisions.
+              </p>
+              <div className="flex flex-wrap gap-3" style={{ marginTop: 32 }}>
+                <Link to="/login" className="bp-btn bp-btn-primary">
+                  <Icon d={ICONS.login} size={17} />
+                  Officer Login
+                </Link>
+                <a href="#overview" className="bp-btn bp-btn-secondary">
+                  Explore Platform
+                  <Icon d={ICONS.arrowRight} size={17} />
+                </a>
+              </div>
+              <div className="flex flex-wrap gap-x-6 gap-y-2" style={{ marginTop: 36, fontSize: 13, color: 'var(--bp-text-2)' }}>
+                {['Explainable predictions', 'Jurisdiction-based access', 'Officer-led decisions'].map(t => (
+                  <span key={t} className="inline-flex items-center gap-1.5">
+                    <span style={{ color: 'var(--bp-green)' }}><Icon d={ICONS.check} size={15} /></span>
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-        {/* Headline */}
-        <h1 className="text-center font-extrabold" style={{ fontSize: 48, color: 'var(--color-text-primary)', lineHeight: 1.15, margin: 0, maxWidth: 720 }}>
-          Predictive Land Acquisition{' '}
-          <span style={{ color: 'var(--color-accent-600)' }}>Intelligence Platform</span>
-        </h1>
-
-        {/* Sub */}
-        <p className="text-center" style={{ fontSize: 16, color: 'var(--color-text-secondary)', maxWidth: 560, lineHeight: 1.7, margin: '20px 0 36px' }}>
-          Early detection of land acquisition delays through predictive analytics.
-          The system analyzes project progress to identify risk factors before they cause
-          delays, enabling proactive intervention by authorized officers.
-        </p>
-
-        {/* CTA */}
-        <Link to="/login" className="btn btn-primary btn-lg no-underline" style={{ padding: '14px 32px', fontSize: 15 }}>
-          Access Dashboard
-          <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-          </svg>
-        </Link>
-
-        {/* 5-step pipeline */}
-        <div className="flex items-center flex-wrap justify-center" style={{ marginTop: 56, width: '100%', maxWidth: 860 }}>
-          {STEPS.map((step, i) => (
-            <div key={step.n} className="flex items-center">
-              <div
-                className="text-center card-hover"
-                style={{ background: 'white', border: '1px solid var(--color-border)', borderRadius: 'var(--radius-lg)', padding: '18px 20px', minWidth: 130, boxShadow: 'var(--shadow-xs)' }}
-              >
-                <div
-                  className="rounded-full flex items-center justify-center text-[13px] font-bold text-white mx-auto"
-                  style={{ width: 36, height: 36, background: 'var(--color-accent-600)', marginBottom: 10 }}
-                >
-                  {step.n}
+            {/* Hero visual */}
+            <div className="relative mx-auto w-full" style={{ maxWidth: 520 }}>
+              <div className="bp-card relative" style={{ padding: '28px 28px 20px' }}>
+                <div className="flex items-center justify-between" style={{ marginBottom: 8 }}>
+                  <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--bp-navy)' }}>National risk view</span>
+                  <span className="bp-badge bp-badge-demo">Illustrative</span>
                 </div>
-                <div className="flex justify-center mb-1.5" style={{ color: 'var(--color-accent-600)' }}>{step.icon}</div>
-                <div className="text-[13px] font-bold" style={{ color: 'var(--color-text-primary)' }}>{step.label}</div>
-                <div className="text-[11px] mt-0.5" style={{ color: 'var(--color-text-muted)' }}>{step.desc}</div>
+                <RiskMapPreview height={400} />
+                <div style={{ paddingTop: 14 }}>
+                  <RiskLegend />
+                </div>
               </div>
-              {i < STEPS.length - 1 && (
-                <div className="font-light" style={{ color: 'var(--color-primary-300)', fontSize: 22, margin: '0 6px' }}>→</div>
-              )}
-            </div>
-          ))}
-        </div>
 
-        {/* Feature tiles */}
-        <div className="grid grid-cols-4 gap-6" style={{ marginTop: 48, width: '100%', maxWidth: 900 }}>
-          {FEATURES.map(f => (
-            <div key={f.title} className="flex items-start gap-3">
-              <div
-                className="rounded-lg flex items-center justify-center flex-shrink-0"
-                style={{ width: 36, height: 36, background: 'var(--color-accent-100)' }}
-              >
-                {f.icon}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Overview ── */}
+        <section id="overview" className="bp-section" style={{ scrollMarginTop: 68 }}>
+          <div className="bp-container">
+            <SectionHeader
+              eyebrow="Overview"
+              title="From Reactive Monitoring to Proactive Decision Support"
+              lead="Delays in land acquisition usually become visible only after they have already affected timelines. Bhumi Prajna shifts attention earlier in the process."
+            />
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bp-card" style={{ padding: 28, background: '#FBFAF7' }}>
+                <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
+                  <h3 style={{ color: 'var(--bp-text-2)' }}>Current approach</h3>
+                  <span className="bp-badge bp-badge-demo">Reactive</span>
+                </div>
+                <ol className="flex flex-wrap items-center gap-2" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+                  {CURRENT_FLOW.map((s, i) => (
+                    <Fragment key={s}>
+                      <li style={{ fontSize: 14, padding: '8px 14px', borderRadius: 999, border: '1px dashed #CFC9BB', color: 'var(--bp-text-2)', background: '#fff' }}>
+                        {s}
+                      </li>
+                      {i < CURRENT_FLOW.length - 1 && <FlowArrow />}
+                    </Fragment>
+                  ))}
+                </ol>
+                <p className="bp-muted" style={{ fontSize: 14, marginTop: 20 }}>
+                  Issues are acted on once they are already causing delay.
+                </p>
               </div>
-              <div>
-                <div className="text-[13px] font-bold" style={{ color: 'var(--color-text-primary)' }}>{f.title}</div>
-                <div className="text-[11px]" style={{ color: 'var(--color-text-muted)' }}>{f.sub}</div>
+
+              <div className="bp-card relative overflow-hidden" style={{ padding: 28, borderColor: '#C9D3E0' }}>
+                <span aria-hidden="true" className="absolute left-0 top-0 bottom-0" style={{ width: 4, background: 'linear-gradient(180deg, #D97706, #3F7D58)' }} />
+                <div className="flex items-center justify-between" style={{ marginBottom: 20 }}>
+                  <h3>Bhumi Prajna</h3>
+                  <span className="bp-badge bp-badge-low">Proactive</span>
+                </div>
+                <ol className="flex flex-wrap items-center gap-2" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+                  {BP_FLOW.map((s, i) => (
+                    <Fragment key={s}>
+                      <li
+                        style={{
+                          fontSize: 14, fontWeight: 500, padding: '8px 14px', borderRadius: 999,
+                          background: i === 1 ? 'var(--bp-navy)' : '#EEF2F7',
+                          color: i === 1 ? '#fff' : 'var(--bp-navy)',
+                        }}
+                      >
+                        {s}
+                      </li>
+                      {i < BP_FLOW.length - 1 && <FlowArrow />}
+                    </Fragment>
+                  ))}
+                </ol>
+                <p className="bp-muted" style={{ fontSize: 14, marginTop: 20 }}>
+                  Emerging risk is flagged, explained and ranked while there is still time to intervene.
+                </p>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        </section>
+
+        {/* ── Capabilities ── */}
+        <section id="capabilities" className="bp-section bp-section-alt" style={{ scrollMarginTop: 68 }}>
+          <div className="bp-container">
+            <SectionHeader eyebrow="Core capabilities" title="What Officers Can Do With Bhumi Prajna" />
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {CAPABILITIES.map(c => (
+                <div key={c.title} className="bp-card" style={{ padding: 24 }}>
+                  <span className="bp-icon-tile"><Icon d={c.icon} /></span>
+                  <h3 style={{ marginTop: 16 }}>{c.title}</h3>
+                  <p className="bp-muted" style={{ fontSize: 14, marginTop: 6 }}>{c.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── How it works ── */}
+        <section id="how-it-works" className="bp-section" style={{ scrollMarginTop: 68 }}>
+          <div className="bp-container">
+            <SectionHeader eyebrow="How it works" title="From Project Data to Timely Intervention" />
+            <ol className="relative grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+              <span
+                aria-hidden="true"
+                className="hidden lg:block absolute"
+                style={{ top: 28, left: '8%', right: '8%', height: 0, borderTop: '1.5px dashed #D2CCBE' }}
+              />
+              {PROCESS.map((p, i) => (
+                <li key={p.label} className="relative flex lg:flex-col items-center lg:text-center gap-4 lg:gap-3">
+                  <span
+                    className="relative flex items-center justify-center flex-shrink-0"
+                    style={{
+                      width: 56, height: 56, borderRadius: 14,
+                      background: i === PROCESS.length - 1 ? 'var(--bp-navy)' : '#fff',
+                      color: i === PROCESS.length - 1 ? '#fff' : 'var(--bp-navy)',
+                      border: '1px solid var(--bp-border)', boxShadow: 'var(--bp-shadow)',
+                    }}
+                  >
+                    <Icon d={p.icon} size={22} />
+                    <span
+                      className="absolute flex items-center justify-center"
+                      style={{ top: -8, right: -8, width: 22, height: 22, borderRadius: 999, background: 'var(--bp-saffron)', color: '#fff', fontSize: 11, fontWeight: 700 }}
+                    >
+                      {i + 1}
+                    </span>
+                  </span>
+                  <span className="flex flex-col">
+                    <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--bp-navy)' }}>{p.label}</span>
+                    <span className="bp-muted" style={{ fontSize: 13 }}>{p.desc}</span>
+                  </span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ── What the platform analyzes ── */}
+        <section className="bp-section bp-section-alt">
+          <div className="bp-container">
+            <SectionHeader eyebrow="Inputs" title="What the Platform Analyzes" />
+            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+              {FACTORS.map(f => (
+                <li key={f.label} className="bp-card flex items-center gap-3" style={{ padding: '14px 16px', boxShadow: 'none' }}>
+                  <span className="bp-icon-tile" style={{ width: 36, height: 36 }}><Icon d={f.icon} size={18} /></span>
+                  <span style={{ fontSize: 14, fontWeight: 500, color: 'var(--bp-text)' }}>{f.label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ── GIS preview ── */}
+        <section className="bp-section">
+          <div className="bp-container grid lg:grid-cols-[0.85fr_1.15fr] gap-12 items-center">
+            <div>
+              <SectionHeader
+                center={false}
+                eyebrow="GIS intelligence"
+                title="See Risk Where It Matters"
+                lead="Every project is placed on the map with its current risk level, so regional clusters and bottlenecks are visible at a glance."
+              />
+              <ul className="flex flex-col gap-3" style={{ listStyle: 'none', margin: 0, padding: 0, fontSize: 14 }}>
+                {['State and district boundaries', 'Project clusters by region', 'Colour-coded markers with plain-language labels', 'Heatmap view for concentration'].map(t => (
+                  <li key={t} className="flex items-center gap-2.5">
+                    <span style={{ color: 'var(--bp-green)' }}><Icon d={ICONS.check} size={16} /></span>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bp-card" style={{ padding: 20 }}>
+              <div className="flex items-center justify-between flex-wrap gap-2" style={{ padding: '0 4px 12px', borderBottom: '1px solid var(--bp-border)' }}>
+                <span className="inline-flex items-center gap-2" style={{ fontSize: 13, fontWeight: 600, color: 'var(--bp-navy)' }}>
+                  <Icon d={ICONS.map} size={16} /> Project risk map
+                </span>
+                <span className="bp-badge bp-badge-demo">Conceptual preview · sample data</span>
+              </div>
+              <div style={{ marginTop: 16 }}>
+                <RiskMapPreview height={460} />
+                <div className="flex items-center flex-wrap gap-x-4 gap-y-2" style={{ paddingTop: 14 }}>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--bp-text-2)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    Marker colour = predicted risk
+                  </span>
+                  <RiskLegend />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── AI explanation preview ── */}
+        <section className="bp-section bp-section-alt">
+          <div className="bp-container grid lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center">
+            <div className="bp-card order-2 lg:order-1" style={{ padding: 28 }}>
+              <div className="flex items-start justify-between gap-4 flex-wrap">
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--bp-text-2)' }}>Project</div>
+                  <div style={{ fontSize: 18, fontWeight: 600, color: 'var(--bp-navy)', marginTop: 2 }}>Example Infrastructure Project</div>
+                </div>
+                <span className="bp-badge bp-badge-demo">Sample data — for illustration</span>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4" style={{ marginTop: 20 }}>
+                <div style={{ padding: 16, borderRadius: 10, background: '#FAEDED', border: '1px solid #EDCFCF' }}>
+                  <div style={{ fontSize: 12, color: 'var(--bp-text-2)' }}>Risk</div>
+                  <div className="flex items-baseline gap-2" style={{ marginTop: 4 }}>
+                    <span style={{ fontSize: 26, fontWeight: 700, color: 'var(--bp-critical)' }}>78%</span>
+                    <span className="bp-badge bp-badge-high">
+                      <svg width="9" height="9" viewBox="0 0 12 12" aria-hidden="true"><path d="M6 0.5 L11.5 11 L0.5 11 Z" fill="currentColor" /></svg>
+                      High
+                    </span>
+                  </div>
+                </div>
+                <div style={{ padding: 16, borderRadius: 10, background: 'var(--bp-bg)', border: '1px solid var(--bp-border)' }}>
+                  <div style={{ fontSize: 12, color: 'var(--bp-text-2)' }}>Next critical stage</div>
+                  <div className="flex items-center gap-2" style={{ marginTop: 8, fontSize: 16, fontWeight: 600, color: 'var(--bp-navy)' }}>
+                    <Icon d={ICONS.flag} size={17} /> Possession
+                  </div>
+                </div>
+              </div>
+
+              <div style={{ marginTop: 24 }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--bp-text)', marginBottom: 12 }}>Top contributing factors</div>
+                <ul className="flex flex-col gap-3" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+                  {SHAP_SAMPLE.map(f => (
+                    <li key={f.label} className="grid items-center gap-3" style={{ gridTemplateColumns: '150px 1fr' }}>
+                      <span style={{ fontSize: 14, color: 'var(--bp-text)' }}>{f.label}</span>
+                      <span style={{ height: 10, borderRadius: 999, background: '#F1EEE6' }}>
+                        <span
+                          style={{
+                            display: 'block', height: '100%', width: `${f.value * 100}%`, borderRadius: 999,
+                            background: 'linear-gradient(90deg, #C98080, #B54747)',
+                          }}
+                        />
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="flex gap-3" style={{ marginTop: 24, padding: 16, borderRadius: 10, background: 'var(--bp-saffron-soft)', border: '1px solid #F2DDBD' }}>
+                <span style={{ color: '#B25F04', flexShrink: 0, marginTop: 1 }}><Icon d={ICONS.target} size={18} /></span>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: '#7A4203' }}>Recommended focus</div>
+                  <div style={{ fontSize: 14, color: 'var(--bp-text)', marginTop: 2 }}>Resolve oldest pending legal and compensation cases.</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="order-1 lg:order-2">
+              <SectionHeader
+                center={false}
+                eyebrow="Explainable AI"
+                title="Every Prediction Comes With a Reason"
+                lead="Officers see not just a risk score, but the specific factors driving it and where to focus first — making each recommendation easy to verify, discuss and act on."
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ── Technology ── */}
+        <section id="technology" className="bp-section" style={{ scrollMarginTop: 68 }}>
+          <div className="bp-container grid lg:grid-cols-2 gap-12 items-center">
+            <SectionHeader
+              center={false}
+              eyebrow="Technology"
+              title="Built on a Dependable, Open Stack"
+              lead="A layered architecture that keeps the officer interface, prediction service and spatial data cleanly separated — ready to integrate with existing state and central systems."
+            />
+            <ol className="flex flex-col items-stretch mx-auto w-full" style={{ listStyle: 'none', margin: 0, padding: 0, maxWidth: 440 }}>
+              {TECH.map((t, i) => (
+                <Fragment key={t.name}>
+                  <li
+                    className="bp-card flex items-center justify-between gap-4"
+                    style={{ padding: '14px 18px', boxShadow: 'none', borderLeft: `3px solid ${i === 2 ? 'var(--bp-saffron)' : 'var(--bp-navy)'}` }}
+                  >
+                    <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--bp-navy)' }}>{t.name}</span>
+                    <span className="bp-muted" style={{ fontSize: 13, textAlign: 'right' }}>{t.role}</span>
+                  </li>
+                  {i < TECH.length - 1 && (
+                    <li aria-hidden="true" className="flex justify-center" style={{ color: '#B4AE9F', padding: '4px 0' }}>
+                      <svg width="12" height="16" viewBox="0 0 12 16"><path d="M6 0v14M1 9l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.5" /></svg>
+                    </li>
+                  )}
+                </Fragment>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ── Impact ── */}
+        <section id="impact" className="bp-section bp-section-alt" style={{ scrollMarginTop: 68 }}>
+          <div className="bp-container">
+            <SectionHeader eyebrow="Impact" title="Supporting Earlier, Better-Informed Decisions" />
+            <ul className="flex flex-wrap justify-center gap-3" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+              {IMPACT.map(i => (
+                <li
+                  key={i.label}
+                  className="bp-card inline-flex items-center gap-2.5"
+                  style={{ padding: '12px 18px', borderRadius: 999, boxShadow: 'none', fontSize: 14, fontWeight: 500 }}
+                >
+                  <span style={{ color: 'var(--bp-green)' }}><Icon d={i.icon} size={18} /></span>
+                  {i.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* ── Trust / governance ── */}
+        <section className="bp-section">
+          <div className="bp-container">
+            <SectionHeader
+              eyebrow="Trust & governance"
+              title="Designed for Accountable Public Decisions"
+              lead="Safeguards are built in, so that predictions remain transparent, traceable and subject to official review."
+            />
+            <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              {GOVERNANCE.map(g => (
+                <div key={g.title} className="bp-card" style={{ padding: 20, boxShadow: 'none' }}>
+                  <span style={{ color: 'var(--bp-navy)' }}><Icon d={g.icon} size={22} /></span>
+                  <h3 style={{ fontSize: 16, marginTop: 12 }}>{g.title}</h3>
+                  <p className="bp-muted" style={{ fontSize: 13, marginTop: 6 }}>{g.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ── Final CTA ── */}
+        <section style={{ padding: '0 0 88px' }}>
+          <div className="bp-container">
+            <div className="relative overflow-hidden text-center" style={{ background: 'var(--bp-navy)', borderRadius: 16, padding: '56px 24px' }}>
+              <JaaliPattern id="bp-cta-jaali" opacity={0.08} color="#fff" />
+              <div className="relative">
+                <h2 style={{ color: '#fff' }}>Make Risk Visible Before It Becomes Delay</h2>
+                <div style={{ marginTop: 28 }}>
+                  <Link to="/login" className="bp-btn" style={{ background: '#fff', color: 'var(--bp-navy)' }}>
+                    <Icon d={ICONS.login} size={17} />
+                    Officer Login
+                  </Link>
+                </div>
+                <p style={{ marginTop: 20, fontSize: 13, color: '#C4CEDB', maxWidth: 520, marginLeft: 'auto', marginRight: 'auto' }}>
+                  Bhumi Prajna is a decision-support system designed to support—not replace—official judgement.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
-      {/* Skyline */}
-      <div style={{ marginTop: 40 }}>
-        <IndiaSkyline />
-      </div>
-
-      {/* Footer */}
-      <footer className="px-10 py-5" style={{ background: 'var(--sidebar-bg)', color: 'var(--sidebar-text)' }}>
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center gap-3">
-            <div
-              className="rounded-md flex items-center justify-center text-[15px] font-extrabold text-white"
-              style={{ width: 36, height: 36, background: 'rgba(255,255,255,0.12)' }}
-            >प्र</div>
-            <div>
-              <div className="text-sm font-bold text-white">Bhumi Prajna</div>
-              <div className="text-[11px]">Land Acquisition Intelligence Platform · Government of India</div>
-            </div>
-          </div>
-          <div className="text-[11px]">
-            © 2025 Bhumi Prajna. Government of India. All rights reserved.
-          </div>
-          <div className="flex gap-4 text-xs" style={{ color: 'var(--sidebar-text)' }}>
-            {['Privacy', 'Terms', 'Help', 'Contact'].map(l => (
-              <span key={l} className="cursor-pointer">{l}</span>
-            ))}
-          </div>
+      {/* ── Footer ── */}
+      <footer style={{ borderTop: '1px solid var(--bp-border)', background: '#F2F0E8' }}>
+        <div className="bp-container flex flex-col md:flex-row items-center justify-between gap-4" style={{ padding: '28px 24px' }}>
+          <Wordmark compact />
+          <p className="bp-muted text-center" style={{ fontSize: 12 }}>
+            Predictive Land Acquisition Intelligence &amp; Early-Intervention Decision Support Platform
+          </p>
+          <p className="bp-muted" style={{ fontSize: 12 }}>© {new Date().getFullYear()} Bhumi Prajna</p>
         </div>
       </footer>
     </div>

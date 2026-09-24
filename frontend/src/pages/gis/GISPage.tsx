@@ -6,10 +6,11 @@
 
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, CircleMarker, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { api } from '../../services/api';
 import { PageHeader, Button, RiskBadge } from '../../components/shared';
+import { riskPinIcon } from '../../components/shared/riskPin';
 import type { RiskCategory } from '../../types';
 
 const RISK_COLORS: Record<string, string> = {
@@ -78,11 +79,8 @@ export default function GISPage() {
 
   useEffect(() => { fetchData(); }, [riskFilter]);
 
-  const getRadius = (f: any) => {
-    const base = 8;
-    const p = f.delay_probability || 0;
-    return base + p * 10;
-  };
+  // Marker diameter in px: 12 (no risk) → 18 (certain delay)
+  const getPinSize = (f: any) => Math.round(12 + (f.delay_probability || 0) * 6);
 
   return (
     <div className="animate-fade-in flex flex-col h-full" style={{ height: 'calc(100vh - 120px)' }}>
@@ -123,14 +121,15 @@ export default function GISPage() {
       </div>
 
       {/* Risk legend + counts */}
-      <div className="flex gap-3 mb-3 flex-shrink-0 flex-wrap">
+      <div className="flex items-center gap-3 mb-3 flex-shrink-0 flex-wrap">
+        <span className="text-xs font-semibold" style={{ color: 'var(--color-text-secondary)' }}>Marker colour = predicted risk:</span>
         {['CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'NO_PREDICTION'].map(risk => (
           <div key={risk} className="flex items-center gap-1.5 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
             <span className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: RISK_COLORS[risk] }} />
             {RISK_LABELS[risk]} ({counts[risk] || 0})
           </div>
         ))}
-        <div className="ml-auto text-xs" style={{ color: 'var(--color-text-muted)' }}>Marker size ∝ delay probability</div>
+        <div className="ml-auto text-xs" style={{ color: 'var(--color-text-muted)' }}>Larger marker = higher delay probability</div>
       </div>
 
       {/* Map */}
@@ -157,17 +156,23 @@ export default function GISPage() {
           {features.length > 0 && <MapBounds features={features} />}
 
           {/* Heatmap circles (districts) */}
+          {/* Soft two-ring glow: wide faint halo + tighter core */}
           {showHeatmap && heatmap.map((h, i) => (
             <CircleMarker
               key={`heat-${i}`}
               center={[h.lat, h.lon]}
-              radius={30 + h.risk_intensity * 40}
-              pathOptions={{
-                fillColor: `rgba(220, 38, 38, ${h.risk_intensity * 0.8})`,
-                fillOpacity: Math.max(0.4, h.risk_intensity * 0.9),
-                color: 'rgba(185, 28, 28, 0.4)',
-                weight: 2,
-              }}
+              radius={10 + h.risk_intensity * 14}
+              interactive={false}
+              pathOptions={{ fillColor: '#b8271f', fillOpacity: 0.1 + h.risk_intensity * 0.12, stroke: false }}
+            />
+          ))}
+          {showHeatmap && heatmap.map((h, i) => (
+            <CircleMarker
+              key={`heat-core-${i}`}
+              center={[h.lat, h.lon]}
+              radius={5 + h.risk_intensity * 6}
+              interactive={false}
+              pathOptions={{ fillColor: '#b8271f', fillOpacity: 0.15 + h.risk_intensity * 0.2, stroke: false }}
             />
           ))}
 
@@ -175,16 +180,11 @@ export default function GISPage() {
           {features.map(f => {
             const color = RISK_COLORS[f.risk_category] || RISK_COLORS.NO_PREDICTION;
             return (
-              <CircleMarker
+              <Marker
                 key={f.id}
-                center={[f.lat, f.lon]}
-                radius={getRadius(f)}
-                pathOptions={{
-                  fillColor: color,
-                  fillOpacity: 0.85,
-                  color: '#241b14',
-                  weight: 1.5,
-                }}
+                position={[f.lat, f.lon]}
+                icon={riskPinIcon(color, getPinSize(f))}
+                title={`${f.project_name} — ${RISK_LABELS[f.risk_category] || 'Unknown'} risk`}
               >
                 <Popup>
                   <div className="font-sans" style={{ minWidth: 200 }}>
@@ -225,7 +225,7 @@ export default function GISPage() {
                     </Button>
                   </div>
                 </Popup>
-              </CircleMarker>
+              </Marker>
             );
           })}
         </MapContainer>
